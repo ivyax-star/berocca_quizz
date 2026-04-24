@@ -180,27 +180,37 @@ const RESULT_CONFIGS = [
     min: 10,
     max: 21,
     heroTitle: "Vẫn ổn, chưa gồng!",
-    meterLabel: "Ổn định",
-    meterValue: 0.18,
+    meterLabel: "Vẫn ổn",
+    meterValue: 0.82,
     meterTone: "green",
     mascotImage: answer5Selected,
     statusCopy:
-      "Bạn vẫn đang giữ được nhịp làm việc và sinh hoạt tương đối ổn. Tuy nhiên cơ thể vẫn đang tiêu hao năng lượng và vi chất để duy trì trạng thái này mỗi ngày.",
+      "Bạn vẫn đang làm tốt mỗi ngày - chưa có gì khiến bạn phải “đuối”.",
     whatCopy:
-      "Đây là giai đoạn cơ thể còn đủ sức bù đắp, nhưng nếu phục hồi chậm, cảm giác hụt năng lượng có thể tích lại và khiến bạn bắt đầu “gồng” lúc nào không hay.",
+      "Cơ thể vẫn đang tiêu hao năng lượng và vi chất để giữ cho bạn ở trạng thái này.",
+    insightNote:
+      "Nếu không phục hồi sớm, sự thiếu hụt sẽ tích lại và đến một lúc, bạn sẽ phải “gồng” mà không kịp nhận ra.",
     signals: [
-      { icon: "energy", title: "Năng lượng", value: "Tạm ổn" },
-      { icon: "focus", title: "Tập trung", value: "Giữ được nhịp" },
-      { icon: "body", title: "Thể chất", value: "Chưa quá tải" },
+      { icon: "energy", title: "Năng lượng", value: "Bắt đầu giảm" },
+      { icon: "focus", title: "Tập trung", value: "Vẫn ổn định" },
+      { icon: "body", title: "Thể chất", value: "Bắt đầu mệt" },
     ],
-    warning:
-      "Chủ động phục hồi từ sớm để giữ trạng thái ổn định thay vì đợi đến lúc phải gồng mới xử lý.",
-    habits: ["Ngủ đủ và sâu hơn", "Ăn uống cân bằng", "Vận động đều đặn"],
+    warning: "Hãy chủ động phục hồi thể chất và tinh thần từ sớm!",
+    habits: [
+      "Ăn uống cân bằng và đa dạng",
+      "Vận động thường xuyên",
+      "Ngủ đủ và sâu hơn",
+    ],
     supplement:
-      "Bổ sung vitamin và khoáng chất thiết yếu mỗi ngày có thể hỗ trợ cơ thể duy trì sức bền, giảm cảm giác đuối sức và giữ phong độ ổn định hơn.",
+      "Bổ sung vitamin và khoáng chất trong trường hợp thiếu hụt (như chế độ ăn không đa dạng) và tăng nhu cầu (như làm việc cường độ cao) để cải thiện sức khỏe tinh thần như giảm căng thẳng và bớt mệt mỏi.",
     recoveryTitle: "Khi cơ thể được phục hồi đúng cách",
     recoveryCopy:
-      "Bạn không cần cố quá nhiều mà vẫn sẵn sàng đón việc, giữ tinh thần tỉnh táo và duy trì nhịp sống thoải mái hơn mỗi ngày.",
+      "Bạn sẽ không cần gồng mà vẫn luôn sẵn sàng để đón mọi thứ phía trước!",
+    recoveryPoints: [
+      "Việc đến, bạn đón.",
+      "Áp lực đến, bạn xử lý.",
+      "Nhịp sống vẫn chạy, bạn vẫn tận hưởng từng khoảnh khắc.",
+    ],
   },
   {
     key: "fatigue",
@@ -208,26 +218,37 @@ const RESULT_CONFIGS = [
     max: 34,
     heroTitle: "Gồng thấy rõ!",
     meterLabel: "Mệt mỏi",
-    meterValue: 0.58,
+    meterValue: 0.48,
     meterTone: "yellow",
     mascotImage: answer3Selected,
     statusCopy:
       "Bạn bắt đầu cảm nhận rõ sự mệt mỏi. Không còn là “cũng ổn” nữa mà đã có những lúc đuối, mất tập trung hoặc thiếu năng lượng để duy trì nhịp làm việc như trước.",
     whatCopy:
-      "Đây là dấu hiệu cơ thể đang tiêu hao nhiều hơn mức có thể phục hồi. Khi năng lượng và vi chất không được bổ sung đủ, thể chất xuống trước, tinh thần chậm theo sau.",
+      "Đây là dấu hiệu cơ thể đang tiêu hao nhiều hơn mức có thể phục hồi.",
+    insightNote:
+      "Khi năng lượng và vi chất không được bổ sung đầy đủ, thể chất xuống trước, tinh thần chậm theo sau và bạn phải “gồng” để ở trạng thái bình thường mỗi ngày.",
     signals: [
       { icon: "energy", title: "Năng lượng", value: "Đang giảm" },
       { icon: "focus", title: "Tập trung", value: "Không ổn định" },
       { icon: "body", title: "Thể chất", value: "Bắt đầu mệt" },
     ],
     warning:
-      "Đừng để tình trạng này kéo dài. Càng phục hồi sớm, cơ thể càng dễ lấy lại nhịp tốt và tránh rơi vào trạng thái quá tải.",
-    habits: ["Ngủ đủ và sâu hơn", "Ăn uống cân bằng", "Vận động hợp lý"],
+      "Đừng để tình trạng này kéo dài. Hãy chủ động phục hồi thể chất và tinh thần càng sớm càng tốt.",
+    habits: [
+      "Ăn uống cân bằng và đa dạng",
+      "Vận động thường xuyên",
+      "Ngủ đủ và sâu hơn",
+    ],
     supplement:
-      "Vitamin nhóm B, vitamin C, kẽm và magie có thể hỗ trợ giảm căng thẳng, bớt mệt mỏi và giúp cơ thể lấy lại đà tốt hơn mỗi ngày.",
-    recoveryTitle: "Khi cơ thể bắt đầu phục hồi đúng cách",
+      "Bổ sung vitamin và khoáng chất trong trường hợp thiếu hụt (như chế độ ăn không đa dạng) và tăng nhu cầu (như làm việc cường độ cao) để cải thiện sức khỏe tinh thần như giảm căng thẳng và bớt mệt mỏi.",
+    recoveryTitle: "Khi cơ thể được phục hồi đúng cách",
     recoveryCopy:
-      "Bạn sẽ không còn phải cố gắng quá sức để theo kịp mà có thể quay lại trạng thái sẵn sàng đón việc và xử lý áp lực nhẹ nhàng hơn.",
+      "Bạn sẽ không cần gồng để vượt qua mà đủ sức để đón lấy!",
+    recoveryPoints: [
+      "Việc vẫn đến nhưng bạn không còn bị cuốn theo.",
+      "Áp lực vẫn có nhưng bạn xử lý nhanh hơn.",
+      "Nhịp sống vẫn chạy, bạn vẫn tận hưởng từng khoảnh khắc.",
+    ],
   },
   {
     key: "extreme-fatigue",
@@ -235,26 +256,39 @@ const RESULT_CONFIGS = [
     max: 50,
     heroTitle: "Gồng quá mức!",
     meterLabel: "Quá tải",
-    meterValue: 0.9,
+    meterValue: 0.16,
     meterTone: "red",
     mascotImage: answer2Selected,
     statusCopy:
       "Bạn đang ở trạng thái mệt mỏi rõ rệt. Năng lượng giảm sâu, cơ thể dễ đuối, tinh thần khó tập trung và mọi thứ bắt đầu trở nên nặng nề hơn bình thường.",
     whatCopy:
-      "Đây là dấu hiệu cho thấy cơ thể đã tiêu hao vượt quá khả năng phục hồi. Nếu để kéo dài, không chỉ hiệu suất giảm mà sức khỏe tổng thể cũng dễ bị ảnh hưởng theo.",
+      "Đây là dấu hiệu cho thấy cơ thể đã tiêu hao vượt quá khả năng phục hồi.",
+    insightNote:
+      "Khi tình trạng này kéo dài, không chỉ hiệu suất giảm mà cả sức khỏe cũng sẽ bị ảnh hưởng.",
     signals: [
-      { icon: "energy", title: "Năng lượng", value: "Giảm sâu" },
-      { icon: "focus", title: "Tập trung", value: "Dễ quá tải" },
-      { icon: "body", title: "Thể chất", value: "Thiếu phục hồi" },
+      { icon: "energy", title: "Năng lượng", value: "Cạn kiệt" },
+      { icon: "focus", title: "Tập trung", value: "Không ổn định" },
+      { icon: "body", title: "Thể chất", value: "Mệt mỏi rõ rệt" },
     ],
     warning:
-      "Đây là lúc cần phục hồi nghiêm túc hơn: ngủ đủ, giảm tải áp lực và dành thời gian để cơ thể nghỉ ngơi thật sự.",
-    habits: ["Ngủ đủ và sâu hơn", "Ăn uống đầy đủ", "Giảm tải áp lực"],
+      "Đừng tiếp tục “gồng” thêm nữa! Bạn cần phục hồi một cách nghiêm túc và đúng cách ngay lúc này.",
+    habits: [
+      "Ăn uống cân bằng và đa dạng",
+      "Vận động thường xuyên",
+      "Ngủ đủ và sâu hơn",
+    ],
     supplement:
-      "Bổ sung vitamin và khoáng chất thiết yếu là một phần hỗ trợ hữu ích, nhưng nếu mệt mỏi kéo dài bạn nên tìm chuyên gia y tế để được tư vấn phù hợp.",
-    recoveryTitle: "Khi cơ thể dần lấy lại năng lượng",
+      "Bổ sung vitamin và khoáng chất trong trường hợp thiếu hụt (như chế độ ăn không đa dạng) và tăng nhu cầu (như làm việc cường độ cao) để cải thiện sức khỏe tinh thần như giảm căng thẳng và bớt mệt mỏi.",
+    supportNote:
+      "Lưu ý: Nếu tình trạng mệt mỏi kéo dài hoặc ảnh hưởng nhiều đến sinh hoạt, bạn nên tìm đến chuyên gia y tế để được tư vấn phù hợp.",
+    recoveryTitle: "Khi cơ thể được phục hồi đúng cách",
     recoveryCopy:
-      "Bạn sẽ bớt cảm giác phải gồng để vượt qua mỗi ngày, từ đó dần quay về trạng thái đủ sức đón việc, đón áp lực và đón nhịp sống phía trước.",
+      "Bạn sẽ không cần gồng để vượt qua mà đủ sức để đón lấy!",
+    recoveryPoints: [
+      "Việc vẫn đến nhưng bạn không còn quá tải.",
+      "Áp lực vẫn có nhưng bạn không còn kiệt sức.",
+      "Nhịp sống vẫn chạy, bạn vẫn tận hưởng từng khoảnh khắc.",
+    ],
   },
 ];
 
@@ -266,28 +300,14 @@ const INITIAL_FORM = {
   doctorQuestion: "",
 };
 
-const STAGE_DETAILS = {
-  quiz: {
-    step: 1,
-    badge: "Bài test FAS",
-    title: "Kiểm tra nhanh mức độ mệt mỏi hiện tại",
-    description:
-      "Trả lời 10 câu hỏi để xem cơ thể bạn đang ổn, bắt đầu gồng hay đã bước vào trạng thái quá tải.",
-  },
-  result: {
-    step: 2,
-    badge: "Kết quả cá nhân",
-    title: "Đọc kết quả theo cách dễ hiểu và dễ hành động",
-    description:
-      "Tập trung vào tín hiệu nổi bật, mức điểm hiện tại và gợi ý phục hồi phù hợp cho nhịp sống hằng ngày.",
-  },
-  collect: {
-    step: 3,
-    badge: "Bước cuối",
-    title: "Bổ sung vài thông tin để hoàn tất ghi nhận",
-    description:
-      "Thông tin được giữ tạm an toàn trên trình duyệt và có thể tự đồng bộ lại nếu đường truyền bị gián đoạn.",
-  },
+const QUIZ_HERO_CONTENT = {
+  lead:
+    "Mệt mỏi, căng thẳng không đến một lần mà tích luỹ mỗi ngày khi cơ thể tiêu hao năng lượng và vi chất nhưng không được phục hồi kịp thời. Khi việc phục hồi chậm lại, thể chất xuống trước, tinh thần chậm theo sau và bạn bắt đầu “gồng” lúc nào không hay.",
+  highlight: "Đa số chúng ta chỉ nhận ra khi đã gồng quá lâu!",
+  cta:
+    "Test nhanh 2 phút với 10 câu hỏi để biết cơ thể bạn đang thật sự ổn — hay chỉ đang gồng?",
+  footnote:
+    "*Bài test được xây dựng dựa trên thang đo mệt mỏi FAS (Fatigue Assessment Scale) của Michielsen và cộng sự - một công cụ đã được nghiên cứu và sử dụng rộng rãi.",
 };
 
 function createInitialAnswers() {
@@ -331,6 +351,39 @@ function getResultLevelLabel(resultKey) {
   }
 
   return "";
+}
+
+function getResultBannerHeadline(resultKey) {
+  if (resultKey === "stable") {
+    return "VẪN ỔN\nCHƯA GỒNG";
+  }
+
+  if (resultKey === "fatigue") {
+    return "GỒNG THẤY RÕ";
+  }
+
+  if (resultKey === "extreme-fatigue") {
+    return "GỒNG QUÁ MỨC!";
+  }
+
+  return "";
+}
+
+function getCollectFieldLabelMeta(label) {
+  const required = label.includes("*");
+
+  return {
+    text: label.replace(/\s*\*\s*$/, "").trim(),
+    required,
+  };
+}
+
+function getCollectOptionsLayout(fieldId) {
+  if (fieldId === "ageGroup" || fieldId === "gender") {
+    return "inline";
+  }
+
+  return "split";
 }
 
 function normalizeAgeGroup(ageGroup) {
@@ -569,139 +622,23 @@ function StatusNotice({ state = "info", message }) {
   );
 }
 
-function getSubmissionTone(submitState) {
-  if (submitState === "success") {
-    return "success";
-  }
-
-  if (submitState === "queued") {
-    return "warning";
-  }
-
-  if (submitState === "error") {
-    return "danger";
-  }
-
-  return "neutral";
-}
-
-function StageHeader({
-  stage,
-  answeredCount,
-  requiredCount,
-  submitState,
-  totalScore,
-}) {
-  const stageDetail = STAGE_DETAILS[stage];
-
+function QuizHeroSection() {
   return (
-    <header className="flow-header">
-      <div className="flow-header__copy">
-        <span className="flow-header__eyebrow">{stageDetail.badge}</span>
-        <h1>{stageDetail.title}</h1>
-        <p>{stageDetail.description}</p>
+    <section className="quiz-hero">
+      <div className="quiz-hero__media">
+        <img
+          src={quizBanner}
+          alt="Bạn đang ổn hay đang gồng mà chưa nhận ra?"
+        />
+      </div>
 
-        <div className="flow-header__meta">
-          <span className="flow-chip">
-            Bước {stageDetail.step}/3
-          </span>
-          {stage === "quiz" ? (
-            <span className="flow-chip flow-chip--soft">
-              {answeredCount}/10 câu đã trả lời
-            </span>
-          ) : null}
-          {stage === "result" ? (
-            <span className="flow-chip flow-chip--soft">{totalScore} điểm FAS</span>
-          ) : null}
-          {stage === "collect" ? (
-            <span className="flow-chip flow-chip--soft">
-              {requiredCount}/{PROFILE_FIELDS.length} mục bắt buộc
-            </span>
-          ) : null}
-          <span className={`flow-chip flow-chip--${getSubmissionTone(submitState)}`}>
-            {submitState === "saving"
-              ? "Đang đồng bộ"
-              : submitState === "queued"
-                ? "Đang chờ gửi lại"
-                : submitState === "success"
-                  ? "Đã ghi nhận"
-                  : submitState === "error"
-                    ? "Cần kiểm tra lại"
-                    : "Sẵn sàng"}
-          </span>
+      <div className="quiz-hero__body">
+        <div className="quiz-hero__copy">
+          <p className="quiz-hero__lead">{QUIZ_HERO_CONTENT.lead}</p>
+          <p className="quiz-hero__highlight">{QUIZ_HERO_CONTENT.highlight}</p>
+          <p className="quiz-hero__cta">{QUIZ_HERO_CONTENT.cta}</p>
         </div>
-      </div>
-
-      <div className="flow-steps" aria-label="Tiến trình bài test">
-        {Object.entries(STAGE_DETAILS).map(([key, detail]) => {
-          const isCurrent = key === stage;
-          const isCompleted = detail.step < stageDetail.step;
-
-          return (
-            <div
-              key={key}
-              className={`flow-step${isCurrent ? " is-current" : ""}${
-                isCompleted ? " is-completed" : ""
-              }`}
-            >
-              <span className="flow-step__index">{detail.step}</span>
-              <div className="flow-step__text">
-                <strong>{detail.badge}</strong>
-                <span>{key === "quiz" ? "Làm bài" : key === "result" ? "Xem kết quả" : "Hoàn tất lưu"}</span>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </header>
-  );
-}
-
-function QuestionNavigator({ answers, onJump }) {
-  const firstMissingIndex = answers.findIndex((answer) => answer === null);
-  const unansweredCount = answers.filter((answer) => answer === null).length;
-
-  return (
-    <section className="card-panel question-map">
-      <div className="question-map__header">
-        <div>
-          <strong>Đi nhanh đến câu cần trả lời</strong>
-          <span>
-            {unansweredCount === 0
-              ? "Bạn đã hoàn thành đủ 10 câu. Có thể xem lại đáp án trước khi lấy kết quả."
-              : `Còn ${unansweredCount} câu chưa chọn. Bạn có thể nhảy nhanh tới từng câu bên dưới.`}
-          </span>
-        </div>
-
-        {firstMissingIndex >= 0 ? (
-          <button
-            type="button"
-            className="ghost-button"
-            onClick={() => onJump(QUESTIONS[firstMissingIndex].id)}
-          >
-            Đến câu tiếp theo
-          </button>
-        ) : (
-          <span className="question-map__done">Đã hoàn tất</span>
-        )}
-      </div>
-
-      <div className="question-map__grid">
-        {QUESTIONS.map((question, questionIndex) => {
-          const isAnswered = answers[questionIndex] !== null;
-
-          return (
-            <button
-              key={question.id}
-              type="button"
-              className={`question-map__chip${isAnswered ? " is-answered" : ""}`}
-              onClick={() => onJump(question.id)}
-            >
-              <span>{question.label}</span>
-              <strong>{isAnswered ? "Đã chọn" : "Chưa chọn"}</strong>
-            </button>
-          );
-        })}
+        <p className="quiz-hero__footnote">{QUIZ_HERO_CONTENT.footnote}</p>
       </div>
     </section>
   );
@@ -796,7 +733,7 @@ function ChoiceOption({ option, optionIndex, selected, onSelect }) {
   );
 }
 
-function QuestionCard({ question, questionIndex, answerIndex, onSelect }) {
+function QuestionCard({ question, answerIndex, onSelect }) {
   const selectedOption = getSelectedOption(answerIndex);
 
   return (
@@ -805,34 +742,33 @@ function QuestionCard({ question, questionIndex, answerIndex, onSelect }) {
       id={question.id}
       data-question-id={question.id}
     >
-      <div className="question-card__frame">
-        <img src={questionFrameImage} alt="" aria-hidden="true" />
-        <div className="question-card__content">
-          <div className="question-card__meta">
-            <span className="question-card__label">{question.label}</span>
-            <span
-              className={`question-card__status${
-                selectedOption ? " is-answered" : " is-pending"
-              }`}
-            >
-              {selectedOption ? `Đã chọn: ${selectedOption.label}` : "Chưa chọn đáp án"}
-            </span>
-          </div>
-          <h2>{question.prompt}</h2>
-          <span className="question-card__step">Câu hỏi {questionIndex + 1} trên 10</span>
-        </div>
-      </div>
+      <div
+        className="question-card__frame"
+        style={{ backgroundImage: `url(${questionFrameImage})` }}
+      >
+        <div className="question-card__overlay">
+          <div className="question-card__header">
+            <div className="question-card__meta">
+              <span className="question-card__label">{question.label}</span>
+            </div>
 
-      <div className="question-card__options">
-        {ANSWER_OPTIONS.map((option, optionIndex) => (
-          <ChoiceOption
-            key={option.label}
-            option={option}
-            optionIndex={optionIndex}
-            selected={answerIndex === optionIndex}
-            onSelect={onSelect}
-          />
-        ))}
+            <div className="question-card__content">
+              <h2>{question.prompt}</h2>
+            </div>
+          </div>
+
+          <div className="question-card__options">
+            {ANSWER_OPTIONS.map((option, optionIndex) => (
+              <ChoiceOption
+                key={option.label}
+                option={option}
+                optionIndex={optionIndex}
+                selected={answerIndex === optionIndex}
+                onSelect={onSelect}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
@@ -842,41 +778,17 @@ function QuizScreen({
   answers,
   onAnswerChange,
   onShowResult,
-  onJumpToQuestion,
   validationMessage,
 }) {
-  const answeredCount = answers.filter((answer) => answer !== null).length;
-  const progress = (answeredCount / QUESTIONS.length) * 100;
-
   return (
     <div className="content-column">
-      <StageBanner
-        image={quizBanner}
-        alt="Bạn đang ổn hay đang gồng mà chưa nhận ra?"
-      />
-
-      <section className="card-panel quiz-progress">
-        <div className="quiz-progress__header">
-          <div>
-            <strong>{answeredCount}/10 câu đã trả lời</strong>
-            <span>Hoàn thành bài test FAS để xem cơ thể bạn đang ở mức nào.</span>
-          </div>
-          <strong>{Math.round(progress)}%</strong>
-        </div>
-
-        <div className="quiz-progress__bar">
-          <span style={{ width: `${progress}%` }} />
-        </div>
-      </section>
-
-      <QuestionNavigator answers={answers} onJump={onJumpToQuestion} />
+      <QuizHeroSection />
 
       <div className="questions-stack">
         {QUESTIONS.map((question, questionIndex) => (
           <QuestionCard
             key={question.id}
             question={question}
-            questionIndex={questionIndex}
             answerIndex={answers[questionIndex]}
             onSelect={(optionIndex) => onAnswerChange(questionIndex, optionIndex)}
           />
@@ -899,97 +811,133 @@ function QuizScreen({
   );
 }
 
-function ResultScreen({ totalScore, answers, onContinue, onRestart }) {
+function ResultScreen({ totalScore, onContinue, onRestart }) {
   const result = getResultConfig(totalScore);
-  const topSignals = QUESTIONS.map((question, index) => {
-    const selected = getSelectedOption(answers[index]);
-
-    return {
-      question: question.label,
-      score: selected?.score ?? 0,
-      answer: selected?.label ?? "",
-    };
-  })
-    .sort((left, right) => right.score - left.score)
-    .slice(0, 3);
+  const bannerHeadline = getResultBannerHeadline(result.key);
 
   return (
-    <div className="content-column">
-      <StageBanner image={resultBanner} alt="Kết quả của bạn" />
+    <div className="content-column content-column--result">
+      <section className="result-hero-banner">
+        <img src={resultBanner} alt="Kết quả của bạn" />
+        <div className="result-hero-banner__copy">
+          <h1>{bannerHeadline}</h1>
+        </div>
+      </section>
 
-      <section className={`result-summary result-summary--${result.key}`}>
-        <div className="result-summary__copy">
-          <span className="section-ribbon">Kết luận hiện tại</span>
-          <h1>{result.heroTitle}</h1>
-          <p>{result.statusCopy}</p>
-          <BatteryMeter tone={result.meterTone} value={result.meterValue} />
+      <section
+        className="result-block result-block--framed result-block--status"
+        style={{ "--result-frame-image": `url(${questionFrameImage})` }}
+      >
+        <div className="result-block__header">
+          <h2>Tình trạng hiện tại của bạn</h2>
+        </div>
 
-          <div className="result-summary__meta">
-            <span>{totalScore} điểm FAS</span>
-            <span>{result.meterLabel}</span>
+        <div className="result-block__body result-block__body--soft">
+          <p className="result-block__paragraph">{result.statusCopy}</p>
+        </div>
+      </section>
+
+      <section
+        className="result-block result-block--framed result-block--insight"
+        style={{ "--result-frame-image": `url(${questionFrameImage})` }}
+      >
+        <div className="result-block__header">
+          <h2>Điều đang xảy ra?</h2>
+        </div>
+
+        <div className="result-block__body result-block__body--soft">
+          <p className="result-block__paragraph result-block__paragraph--lead">
+            {result.whatCopy}
+          </p>
+
+          <div className="result-signal-row">
+            {result.signals.map((signal) => (
+              <div key={signal.title} className="result-signal">
+                <div className="result-signal__icon">
+                  <SignalIcon type={signal.icon} />
+                </div>
+                <div className="result-signal__text">
+                  <strong>{signal.title}:</strong>
+                  <span>{signal.value}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="result-block__paragraph">{result.insightNote}</p>
+
+          <div className="result-alert">
+            <div className="result-alert__icon" aria-hidden="true">
+              !
+            </div>
+            <p>{result.warning}</p>
           </div>
         </div>
-
-        <div className="result-summary__art">
-          <img src={result.mascotImage} alt="" aria-hidden="true" />
-        </div>
       </section>
 
-      <section className="info-card">
-        <span className="section-ribbon">Điều đang xảy ra?</span>
-        <p>{result.whatCopy}</p>
-
-        <div className="signal-grid">
-          {result.signals.map((signal) => (
-            <div key={signal.title} className="signal-card">
-              <div className="signal-card__icon">
-                <SignalIcon type={signal.icon} />
-              </div>
-              <div className="signal-card__text">
-                <strong>{signal.title}</strong>
-                <span>{signal.value}</span>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        <div className="warning-banner">{result.warning}</div>
-      </section>
-
-      <section className="support-grid">
-        <article className="info-card">
-          <span className="section-ribbon">Bắt đầu từ điều cơ bản</span>
-          <ul className="habit-list">
+      <section className="result-support-layout">
+        <article className="result-basic-card">
+          <h2>Bắt đầu từ những điều cơ bản:</h2>
+          <ul className="result-basic-list">
             {result.habits.map((habit) => (
               <li key={habit}>{habit}</li>
             ))}
           </ul>
         </article>
 
-        <article className="info-card info-card--accent">
-          <span className="accent-card__badge">Quan trọng</span>
-          <h2>Gợi ý hỗ trợ thêm</h2>
-          <p>{result.supplement}</p>
+        <article className="result-important-card">
+          <div className="result-important-card__header">
+            <span>Quan trọng</span>
+          </div>
+
+          <div className="result-important-card__body">
+            <div className="result-important-card__copy">
+              <p>{result.supplement}</p>
+              {result.supportNote ? (
+                <p className="result-important-card__note">{result.supportNote}</p>
+              ) : null}
+            </div>
+
+            <div className="result-vitamin-cluster" aria-hidden="true">
+              <span className="result-vitamin-cluster__center">
+                CÁC VITAMIN
+                <small>& KHOÁNG CHẤT</small>
+              </span>
+              <span className="result-vitamin-cluster__bubble result-vitamin-cluster__bubble--b">
+                B
+              </span>
+              <span className="result-vitamin-cluster__bubble result-vitamin-cluster__bubble--c">
+                C
+              </span>
+              <span className="result-vitamin-cluster__bubble result-vitamin-cluster__bubble--zn">
+                KẼM
+              </span>
+              <span className="result-vitamin-cluster__bubble result-vitamin-cluster__bubble--mg">
+                MAGIE
+              </span>
+            </div>
+          </div>
         </article>
       </section>
 
-      <section className="recovery-card">
-        <span className="section-ribbon section-ribbon--light">
-          Sau khi phục hồi đúng cách
-        </span>
-        <h2>{result.recoveryTitle}</h2>
-        <p>{result.recoveryCopy}</p>
+      <section className="result-recovery-panel">
+        <div className="result-recovery-panel__copy">
+          <h2>{result.recoveryTitle}</h2>
+          <p>{result.recoveryCopy}</p>
 
-        <div className="recovery-card__stats">
-          {topSignals.map((signal) => (
-            <span key={signal.question}>
-              {signal.question}: {signal.answer}
-            </span>
-          ))}
+          <ul className="result-recovery-panel__points">
+            {result.recoveryPoints.map((point) => (
+              <li key={point}>{point}</li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="result-recovery-panel__art">
+          <img src={answer5Selected} alt="" aria-hidden="true" />
         </div>
       </section>
 
-      <div className="actions-center">
+      <div className="actions-center result-actions">
         <ImageButton
           type="button"
           image={continueButtonImage}
@@ -1013,52 +961,45 @@ function CollectScreen({
   submitState,
   formMessage,
 }) {
-  const completedRequiredCount = PROFILE_FIELDS.filter((field) => form[field.id]).length;
-  const requiredProgress = (completedRequiredCount / PROFILE_FIELDS.length) * 100;
-
   return (
-    <div className="content-column">
+    <div className="content-column content-column--collect">
       <StageBanner image={collectBanner} alt="Chia sẻ thông tin" />
 
-      <section className="card-panel">
-        <span className="section-ribbon">Chia sẻ thêm một chút</span>
+      <section className="collect-intro">
         <p>
-          Bạn đã biết mình đang “gồng” ở mức nào. Điền thêm thông tin để hệ thống ghi
-          nhận và hỗ trợ tư vấn phù hợp hơn cho bạn.
+          Bạn đã biết mình đang “gồng” ở mức nào. Chia sẻ thêm một chút để nhận tư
+          vấn phù hợp hơn cho chính bạn và có cơ hội được bác sĩ giải đáp trực tiếp
+          trong buổi hội thảo.
         </p>
       </section>
 
-      <section className="card-panel collect-progress">
-        <div className="collect-progress__header">
-          <strong>{completedRequiredCount}/{PROFILE_FIELDS.length} mục bắt buộc đã hoàn tất</strong>
-          <span>
-            Bạn có thể chỉnh sửa thoải mái trước khi xác nhận. Hệ thống sẽ ưu tiên phiên bản mới nhất.
-          </span>
-        </div>
-
-        <div className="quiz-progress__bar">
-          <span style={{ width: `${requiredProgress}%` }} />
-        </div>
-
-        <div className="trust-strip">
-          <span className="trust-pill">Lưu tạm an toàn trên trình duyệt</span>
-          <span className="trust-pill">Tự gửi lại nếu mạng chập chờn</span>
-          <span className="trust-pill">Có thể quay lại sửa trước khi gửi</span>
-        </div>
-      </section>
-
       <form className="collect-form" onSubmit={onSubmit}>
-        {PROFILE_FIELDS.map((field) => (
-          <fieldset key={field.id} className="collect-card collect-group">
-            <legend>{field.label}</legend>
-            <div className="collect-group__options">
+        {PROFILE_FIELDS.map((field) => {
+          const labelMeta = getCollectFieldLabelMeta(field.label);
+          const optionsLayout = getCollectOptionsLayout(field.id);
+
+          return (
+            <fieldset key={field.id} className={`collect-group collect-group--${field.id}`}>
+              <legend className="collect-group__legend">
+                <span className="collect-group__accent" aria-hidden="true" />
+                <span className="collect-group__legend-text">{labelMeta.text}</span>
+                {labelMeta.required ? (
+                  <span className="collect-group__required">*</span>
+                ) : null}
+              </legend>
+
+              <div className="collect-group__rule" />
+
+              <div
+                className={`collect-group__options collect-group__options--${optionsLayout}`}
+              >
               {field.options.map((option) => {
                 const checked = form[field.id] === option;
 
                 return (
                   <label
                     key={option}
-                    className={`select-chip${checked ? " is-selected" : ""}`}
+                    className={`collect-choice${checked ? " is-selected" : ""}`}
                   >
                     <input
                       type="radio"
@@ -1067,20 +1008,24 @@ function CollectScreen({
                       checked={checked}
                       onChange={(event) => onChange(field.id, event.target.value)}
                     />
-                    <span className="select-chip__box" />
-                    <span>{option}</span>
+                    <span className="collect-choice__box" />
+                    <span className="collect-choice__label">{option}</span>
                   </label>
                 );
               })}
-            </div>
-          </fieldset>
-        ))}
+              </div>
+            </fieldset>
+          );
+        })}
 
-        <fieldset className="collect-card collect-group">
-          <legend>
-            Nếu có 1 điều bạn đang thắc mắc về tình trạng của mình, bạn muốn hỏi bác sĩ
-            điều gì?
+        <fieldset className="collect-group collect-group--question">
+          <legend className="collect-group__legend collect-group__legend--plain">
+            <span className="collect-group__legend-text">
+              Nếu có 1 điều bạn đang thắc mắc về tình trạng của mình, bạn muốn hỏi bác sĩ
+              điều gì?
+            </span>
           </legend>
+          <div className="collect-group__rule" />
           <textarea
             name="doctorQuestion"
             value={form.doctorQuestion}
@@ -1105,26 +1050,28 @@ function CollectScreen({
           />
         ) : null}
 
-        <div className="actions-center">
+        <div className="actions-center actions-center--collect">
           <button
             type="submit"
-            className="brand-button"
+            className="collect-submit-button"
             disabled={submitState === "saving" || submitState === "success"}
           >
-            {submitState === "saving"
-              ? "Đang gửi..."
-              : submitState === "success"
-                ? "Đã ghi nhận"
-                : submitState === "queued"
-                  ? "Gửi lại ngay"
-                  : submitState === "error"
-                    ? "Thử gửi lại"
-                    : "Xác nhận"}
+            <span>
+              {submitState === "saving"
+                ? "Đang gửi..."
+                : submitState === "success"
+                  ? "Đã ghi nhận"
+                  : submitState === "queued"
+                    ? "Gửi lại ngay"
+                    : submitState === "error"
+                      ? "Thử gửi lại"
+                      : "Xác nhận"}
+            </span>
           </button>
 
           <button
             type="button"
-            className="secondary-button"
+            className="secondary-button collect-secondary-button"
             onClick={submitState === "success" ? onRestart : onBack}
           >
             {submitState === "success" ? "Làm lại bài test" : "Xem lại kết quả"}
@@ -1153,8 +1100,6 @@ export default function BeroccaFASQuiz() {
   const syncTimerRef = useRef(null);
   const isSyncingQueueRef = useRef(false);
   const flushSubmissionQueueRef = useRef(async () => {});
-  const answeredCount = answers.filter((answer) => answer !== null).length;
-  const requiredCount = PROFILE_FIELDS.filter((field) => form[field.id]).length;
 
   function clearScheduledSync() {
     if (typeof window === "undefined" || syncTimerRef.current === null) {
@@ -1421,13 +1366,6 @@ export default function BeroccaFASQuiz() {
     setFormMessage("");
   }
 
-  function handleJumpToQuestion(questionId) {
-    document.getElementById(questionId)?.scrollIntoView({
-      behavior: "smooth",
-      block: "center",
-    });
-  }
-
   function handleShowResult() {
     const firstMissingIndex = answers.findIndex((answer) => answer === null);
 
@@ -1558,19 +1496,10 @@ export default function BeroccaFASQuiz() {
   return (
     <main className="page-shell">
       <div className="page-frame">
-        <StageHeader
-          stage={stage}
-          answeredCount={answeredCount}
-          requiredCount={requiredCount}
-          submitState={submitState}
-          totalScore={totalScore}
-        />
-
         {stage === "quiz" ? (
           <QuizScreen
             answers={answers}
             onAnswerChange={handleAnswerChange}
-            onJumpToQuestion={handleJumpToQuestion}
             onShowResult={handleShowResult}
             validationMessage={formMessage}
           />
@@ -1579,7 +1508,6 @@ export default function BeroccaFASQuiz() {
         {stage === "result" ? (
           <ResultScreen
             totalScore={totalScore}
-            answers={answers}
             onContinue={() => setStage("collect")}
             onRestart={handleRestart}
           />
