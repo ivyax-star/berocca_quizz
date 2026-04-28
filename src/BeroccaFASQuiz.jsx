@@ -140,16 +140,19 @@ const QUESTIONS = [
 const PROFILE_FIELDS = [
   {
     id: "ageGroup",
+    layout: "inline",
     label: "Bạn đang ở nhóm tuổi nào? *",
     options: ["Dưới 25", "25 - 34", "35 - 44", "Trên 45"],
   },
   {
     id: "gender",
+    layout: "inline",
     label: "Giới tính của bạn: *",
     options: ["Nam", "Nữ", "Khác", "Không muốn chia sẻ"],
   },
   {
     id: "jobGroup",
+    layout: "split",
     label: "Công việc hiện tại của bạn gần với nhóm nào nhất? *",
     options: [
       "IT / Công nghệ",
@@ -164,6 +167,7 @@ const PROFILE_FIELDS = [
   },
   {
     id: "workNature",
+    layout: "split",
     label: "Tính chất công việc của bạn gần với điều nào nhất? *",
     options: [
       "Chủ yếu ngồi nhiều / Làm việc trí óc",
@@ -369,21 +373,24 @@ function getResultBannerHeadline(resultKey) {
   return "";
 }
 
-function getCollectFieldLabelMeta(label) {
-  const required = label.includes("*");
-
-  return {
-    text: label.replace(/\s*\*\s*$/, "").trim(),
-    required,
-  };
-}
-
-function getCollectOptionsLayout(fieldId) {
-  if (fieldId === "ageGroup" || fieldId === "gender") {
-    return "inline";
+function getCollectSubmitLabel(submitState) {
+  if (submitState === "saving") {
+    return "ĐANG GỬI";
   }
 
-  return "split";
+  if (submitState === "success") {
+    return "ĐÃ GHI NHẬN";
+  }
+
+  if (submitState === "queued") {
+    return "GỬI LẠI";
+  }
+
+  if (submitState === "error") {
+    return "THỬ LẠI";
+  }
+
+  return "XÁC NHẬN";
 }
 
 function normalizeAgeGroup(ageGroup) {
@@ -781,7 +788,7 @@ function QuizScreen({
   validationMessage,
 }) {
   return (
-    <div className="content-column">
+    <div className="content-column content-column--quiz">
       <QuizHeroSection />
 
       <div className="questions-stack">
@@ -967,39 +974,23 @@ function CollectScreen({
 
       <section className="collect-intro">
         <p>
-          Bạn đã biết mình đang “gồng” ở mức nào. Chia sẻ thêm một chút để nhận tư
-          vấn phù hợp hơn cho chính bạn và có cơ hội được bác sĩ giải đáp trực tiếp
-          trong buổi hội thảo.
+          Bạn đã biết mình đang “gồng” ở mức nào. Chia sẻ thêm một chút để nhận tư vấn
+          phù hợp hơn cho chính bạn và có cơ hội được bác sĩ giải đáp trực tiếp.
         </p>
       </section>
 
       <form className="collect-form" onSubmit={onSubmit}>
-        {PROFILE_FIELDS.map((field) => {
-          const labelMeta = getCollectFieldLabelMeta(field.label);
-          const optionsLayout = getCollectOptionsLayout(field.id);
-
-          return (
-            <fieldset key={field.id} className={`collect-group collect-group--${field.id}`}>
-              <legend className="collect-group__legend">
-                <span className="collect-group__accent" aria-hidden="true" />
-                <span className="collect-group__legend-text">{labelMeta.text}</span>
-                {labelMeta.required ? (
-                  <span className="collect-group__required">*</span>
-                ) : null}
-              </legend>
-
-              <div className="collect-group__rule" />
-
-              <div
-                className={`collect-group__options collect-group__options--${optionsLayout}`}
-              >
+        {PROFILE_FIELDS.map((field) => (
+          <fieldset key={field.id} className="collect-card collect-group">
+            <legend className="collect-group__legend">{field.label}</legend>
+            <div className={`collect-group__options collect-group__options--${field.layout}`}>
               {field.options.map((option) => {
                 const checked = form[field.id] === option;
 
                 return (
                   <label
                     key={option}
-                    className={`collect-choice${checked ? " is-selected" : ""}`}
+                    className={`select-chip${checked ? " is-selected" : ""}`}
                   >
                     <input
                       type="radio"
@@ -1008,24 +999,21 @@ function CollectScreen({
                       checked={checked}
                       onChange={(event) => onChange(field.id, event.target.value)}
                     />
-                    <span className="collect-choice__box" />
-                    <span className="collect-choice__label">{option}</span>
+                    <span className="select-chip__box" />
+                    <span className="select-chip__label">{option}</span>
                   </label>
                 );
               })}
-              </div>
-            </fieldset>
-          );
-        })}
+            </div>
+          </fieldset>
+        ))}
 
-        <fieldset className="collect-group collect-group--question">
+        <fieldset className="collect-card collect-group collect-group--doctor">
           <legend className="collect-group__legend collect-group__legend--plain">
-            <span className="collect-group__legend-text">
-              Nếu có 1 điều bạn đang thắc mắc về tình trạng của mình, bạn muốn hỏi bác sĩ
-              điều gì?
-            </span>
+            Nếu có 1 điều bạn đang thắc mắc về tình trạng của mình, bạn muốn hỏi bác sĩ
+            điều gì?
           </legend>
-          <div className="collect-group__rule" />
+          <div className="collect-group__rule collect-group__rule--doctor" aria-hidden="true" />
           <textarea
             name="doctorQuestion"
             value={form.doctorQuestion}
@@ -1033,6 +1021,10 @@ function CollectScreen({
             rows={5}
             placeholder="Nhập câu hỏi hoặc điều bạn đang quan tâm..."
           />
+          <p className="collect-group__note">
+            Bảng câu hỏi trắc nghiệm này không thu thập tên hoặc bất kỳ thông tin nào giúp
+            xác định bạn là ai. Chúng tôi tôn trọng quyền riêng tư và bảo vệ dữ liệu của bạn.
+          </p>
         </fieldset>
 
         {formMessage ? (
@@ -1056,17 +1048,7 @@ function CollectScreen({
             className="collect-submit-button"
             disabled={submitState === "saving" || submitState === "success"}
           >
-            <span>
-              {submitState === "saving"
-                ? "Đang gửi..."
-                : submitState === "success"
-                  ? "Đã ghi nhận"
-                  : submitState === "queued"
-                    ? "Gửi lại ngay"
-                    : submitState === "error"
-                      ? "Thử gửi lại"
-                      : "Xác nhận"}
-            </span>
+            <span>{getCollectSubmitLabel(submitState)}</span>
           </button>
 
           <button
@@ -1494,8 +1476,12 @@ export default function BeroccaFASQuiz() {
   }
 
   return (
-    <main className="page-shell">
-      <div className="page-frame">
+    <main
+      className={`page-shell${stage === "quiz" ? " page-shell--quiz" : ""}${stage === "collect" ? " page-shell--collect" : ""}`}
+    >
+      <div
+        className={`page-frame${stage === "quiz" ? " page-frame--quiz" : ""}${stage === "collect" ? " page-frame--collect" : ""}`}
+      >
         {stage === "quiz" ? (
           <QuizScreen
             answers={answers}
