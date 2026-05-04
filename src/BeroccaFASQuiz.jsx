@@ -1012,12 +1012,11 @@ const QuestionCard = memo(function QuestionCard({
       >
         <div className="question-card__overlay">
           <div className="question-card__header">
-            <div className="question-card__meta">
-              <span className="question-card__label">{`${question.label}:`}</span>
-            </div>
-
             <div className="question-card__content">
-              <h2>{question.prompt}</h2>
+              <h2>
+                <span className="question-card__label">{`${question.label}:`}</span>{" "}
+                {question.prompt}
+              </h2>
             </div>
           </div>
 
