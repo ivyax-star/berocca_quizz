@@ -12,12 +12,6 @@ dist
 dist-ssr
 *.local
 
-# Large design/source files
-*.psd
-
-# Temporary extracted design files
-.tmp_*
-
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
