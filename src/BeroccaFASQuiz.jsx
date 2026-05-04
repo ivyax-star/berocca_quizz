@@ -1,26 +1,45 @@
-import { useEffect, useEffectEvent, useRef, useState } from "react";
-import quizBanner from "./assets/banner.png";
-import resultBanner from "./assets/banner 2.png";
-import collectBanner from "./assets/banner 3.png";
-import resultButtonImage from "./assets/btn 1.png";
-import continueButtonImage from "./assets/nut 2.png";
-import questionFrameImage from "./assets/frame cau hoi.png";
-import answer1Default from "./assets/dap an 1 - Copy.png";
-import answer1Selected from "./assets/dap an 1.png";
-import answer2Default from "./assets/dap an 2 - Copy.png";
-import answer2Selected from "./assets/dap an 2.png";
-import answer3Default from "./assets/dap an 3 - Copy.png";
-import answer3Selected from "./assets/dap an 3.png";
-import answer4Default from "./assets/dapan 4 - Copy.png";
-import answer4Selected from "./assets/dapan 4.png";
-import answer5Default from "./assets/dapan 5 - Copy.png";
-import answer5Selected from "./assets/dapan 5.png";
+﻿import { memo, useCallback, useEffect, useEffectEvent, useRef, useState } from "react";
+import quizBanner from "./Element/Top Banner/1/top baner 1.png";
+import stableResultBanner from "./Element/Top Banner/top banner KETQUA 1 960X350 co text.png";
+import fatigueResultBanner from "./Element/Top Banner/top banner KETQUA 2 960X350 co text.png";
+import extremeFatigueResultBanner from "./Element/Top Banner/top banner KETQUA 3 960X350 co text.png";
+import collectBanner from "./Element/Top Banner/3/top banner 3.png";
+import resultButtonImage from "./Element/Button/btn 1 KQ.png";
+import continueButtonImage from "./Element/Button/btn 2 xem tep.png";
+import collectSubmitButtonImage from "./Element/Button/button xac nhan.png";
+import quizPageBackgroundImage from "./Element/Background/BG.jpg";
+import quizHeroGradientImage from "./Element/Background/Bg gradient.png";
+import quizFooterImage from "./Element/footer.png";
+import questionFrameImage from "./Element/shape no shadow.jpg";
+import answer1Default from "./Element/Emo BW/emo 1.png";
+import answer1Selected from "./Element/Emopick/emo 1.png";
+import answer2Default from "./Element/Emo BW/emo 2.png";
+import answer2Selected from "./Element/Emopick/emo 2.png";
+import answer3Default from "./Element/Emo BW/emo 3.png";
+import answer3Selected from "./Element/Emopick/emo 3.png";
+import answer4Default from "./Element/Emo BW/emo 4.png";
+import answer4Selected from "./Element/Emopick/emo 4.png";
+import answer5Default from "./Element/Emo BW/emo 5.png";
+import answer5Selected from "./Element/Emopick/emo 5.png";
+import recoveryMascotImage from "./Element/emo 6.png";
+import basicTitleImage from "./Element/Headline/text 1.png";
+import importantTitleImage from "./Element/Headline/text 2.png";
+import recoveryTitleImage from "./Element/Headline/text 3.png";
+import vitaminClusterImage from "./Element/cac chat copy.png";
+import alertIconImage from "./Element/icon.png";
+import bulletImage from "./Element/bullet.png";
+import happeningEnergyImage from "./Element/Happening/a2.png";
+import happeningFocusImage from "./Element/Happening/b2.png";
+import happeningBodyImage from "./Element/Happening/c2.png";
+import basicHabit1Icon from "./Element/Dieu co ban/hd1.png";
+import basicHabit2Icon from "./Element/Dieu co ban/hd 2.png";
+import basicHabit3Icon from "./Element/Dieu co ban/hd 3.png";
+import checklistImage from "./Element/Dieu co ban/checklist.png";
 import {
   acquireSubmissionQueueLease,
   clearAcknowledgedSession,
   clearPersistedQuizState,
   createSessionId,
-  createSubmissionId,
   getQueuedSubmissionBySession,
   getRetryDelayMs,
   getTerminalFailureRetryDelayMs,
@@ -37,9 +56,80 @@ import {
   upsertQueuedSubmission,
 } from "./beroccaSubmissionStorage";
 
+function createImageAsset(src, width, height) {
+  return { src, width, height };
+}
+
+const QUIZ_BANNER_IMAGE = createImageAsset(quizBanner, 960, 350);
+const RESULT_STABLE_BANNER_IMAGE = createImageAsset(stableResultBanner, 960, 350);
+const RESULT_FATIGUE_BANNER_IMAGE = createImageAsset(fatigueResultBanner, 960, 350);
+const RESULT_EXTREME_BANNER_IMAGE = createImageAsset(
+  extremeFatigueResultBanner,
+  960,
+  350,
+);
+const COLLECT_BANNER_IMAGE = createImageAsset(collectBanner, 960, 350);
+const RESULT_BUTTON_IMAGE = createImageAsset(resultButtonImage, 290, 62);
+const CONTINUE_BUTTON_IMAGE = createImageAsset(continueButtonImage, 290, 62);
+const COLLECT_SUBMIT_BUTTON_IMAGE = createImageAsset(
+  collectSubmitButtonImage,
+  290,
+  63,
+);
+const QUIZ_PAGE_BACKGROUND_IMAGE = createImageAsset(
+  quizPageBackgroundImage,
+  1920,
+  1473,
+);
+const QUIZ_HERO_GRADIENT_IMAGE = createImageAsset(quizHeroGradientImage, 962, 276);
+const QUIZ_FOOTER_IMAGE = createImageAsset(quizFooterImage, 960, 120);
+const QUESTION_FRAME_IMAGE = createImageAsset(questionFrameImage, 720, 222);
+const ANSWER_1_DEFAULT_IMAGE = createImageAsset(answer1Default, 400, 350);
+const ANSWER_1_SELECTED_IMAGE = createImageAsset(answer1Selected, 400, 350);
+const ANSWER_2_DEFAULT_IMAGE = createImageAsset(answer2Default, 400, 350);
+const ANSWER_2_SELECTED_IMAGE = createImageAsset(answer2Selected, 400, 350);
+const ANSWER_3_DEFAULT_IMAGE = createImageAsset(answer3Default, 400, 350);
+const ANSWER_3_SELECTED_IMAGE = createImageAsset(answer3Selected, 400, 350);
+const ANSWER_4_DEFAULT_IMAGE = createImageAsset(answer4Default, 400, 350);
+const ANSWER_4_SELECTED_IMAGE = createImageAsset(answer4Selected, 400, 350);
+const ANSWER_5_DEFAULT_IMAGE = createImageAsset(answer5Default, 400, 350);
+const ANSWER_5_SELECTED_IMAGE = createImageAsset(answer5Selected, 400, 350);
+const RECOVERY_MASCOT_IMAGE = createImageAsset(recoveryMascotImage, 280, 250);
+const BASIC_TITLE_IMAGE = createImageAsset(basicTitleImage, 404, 100);
+const IMPORTANT_TITLE_IMAGE = createImageAsset(importantTitleImage, 334, 100);
+const RECOVERY_TITLE_IMAGE = createImageAsset(recoveryTitleImage, 892, 54);
+const VITAMIN_CLUSTER_IMAGE = createImageAsset(vitaminClusterImage, 169, 186);
+const ALERT_ICON_IMAGE = createImageAsset(alertIconImage, 120, 120);
+const BULLET_IMAGE = createImageAsset(bulletImage, 23, 11);
+const HAPPENING_ENERGY_IMAGE = createImageAsset(happeningEnergyImage, 248, 101);
+const HAPPENING_FOCUS_IMAGE = createImageAsset(happeningFocusImage, 249, 101);
+const HAPPENING_BODY_IMAGE = createImageAsset(happeningBodyImage, 232, 101);
+const CHECKLIST_IMAGE = createImageAsset(checklistImage, 34, 28);
+const BASIC_HABIT_ICONS = [
+  createImageAsset(basicHabit1Icon, 50, 50),
+  createImageAsset(basicHabit2Icon, 50, 50),
+  createImageAsset(basicHabit3Icon, 50, 50),
+];
+const HAPPENING_SIGNAL_IMAGES = {
+  energy: HAPPENING_ENERGY_IMAGE,
+  focus: HAPPENING_FOCUS_IMAGE,
+  body: HAPPENING_BODY_IMAGE,
+};
+
+const SEO_URL = "https://www.berocca.com.vn/thang-do-met-moi-FAS";
+const SEO_TITLE =
+  "Ki\u1ec3m tra c\u01a1 th\u1ec3 b\u1ea1n \u0111ang th\u1eadt s\u1ef1 \u1ed5n \u2014 hay ch\u1ec9 \u0111ang g\u1ed3ng?";
+const SEO_DESCRIPTION =
+  "\u0110a s\u1ed1 ch\u00fang ta ch\u1ec9 nh\u1eadn ra khi \u0111\u00e3 g\u1ed3ng qu\u00e1 l\u00e2u! Test nhanh 2 ph\u00fat v\u1edbi 10 c\u00e2u h\u1ecfi \u0111\u1ec3 bi\u1ebft c\u01a1 th\u1ec3 b\u1ea1n \u0111ang th\u1eadt s\u1ef1 \u1ed5n \u2014 hay ch\u1ec9 \u0111ang g\u1ed3ng?";
+const SEO_H1 =
+  "Ki\u1ec3m tra t\u00ecnh tr\u1ea1ng c\u0103ng th\u1eb3ng m\u1ec7t m\u1ecfi";
+const QUIZ_BANNER_ALT = SEO_H1;
+const RESULT_BANNER_ALT = "Kết quả tình trạng căng thẳng mệt mỏi";
+const COLLECT_BANNER_ALT = "Thông tin tư vấn tình trạng căng thẳng mệt mỏi";
+
 const APPS_SCRIPT_URL =
   import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL ??
-  "https://script.google.com/macros/s/AKfycbwa2pEfOiZ1S-EcDox5y-tSvwH3Ifuc33tsr_YP-oW9kmgK05640mgvJG2DxFHTTagq_A/exec";
+  "https://script.google.com/macros/s/AKfycbxVYxq_iXLDQe2IcF8fFtX8VswYfFEXm1GvNsm03MAb-jnQVmaYrldindRBqQZPf1zBjA/exec";
 
 const SECRET_TOKEN =
   import.meta.env.VITE_GOOGLE_APPS_SCRIPT_TOKEN ?? "berocca2024xyz";
@@ -50,37 +140,76 @@ const QUEUED_SUBMISSION_MESSAGE =
 const TERMINAL_SUBMISSION_MESSAGE =
   "Hệ thống lưu dữ liệu đang gặp lỗi cấu hình. Dữ liệu vẫn được giữ trên trình duyệt để gửi lại sau.";
 
+const QUIZ_RESULT_SUBMISSION_PHASE = "quiz_result";
+const COLLECT_INFO_SUBMISSION_PHASE = "collect_info";
+
 const ANSWER_OPTIONS = [
   {
     label: "Luôn luôn",
     score: 5,
-    defaultImage: answer1Default,
-    selectedImage: answer1Selected,
+    defaultImage: ANSWER_1_DEFAULT_IMAGE,
+    selectedImage: ANSWER_1_SELECTED_IMAGE,
   },
   {
     label: "Thường xuyên",
     score: 4,
-    defaultImage: answer2Default,
-    selectedImage: answer2Selected,
+    defaultImage: ANSWER_2_DEFAULT_IMAGE,
+    selectedImage: ANSWER_2_SELECTED_IMAGE,
   },
   {
     label: "Thỉnh thoảng",
     score: 3,
-    defaultImage: answer3Default,
-    selectedImage: answer3Selected,
+    defaultImage: ANSWER_3_DEFAULT_IMAGE,
+    selectedImage: ANSWER_3_SELECTED_IMAGE,
   },
   {
     label: "Ít khi",
     score: 2,
-    defaultImage: answer4Default,
-    selectedImage: answer4Selected,
+    defaultImage: ANSWER_4_DEFAULT_IMAGE,
+    selectedImage: ANSWER_4_SELECTED_IMAGE,
   },
   {
     label: "Không bao giờ",
     score: 1,
-    defaultImage: answer5Default,
-    selectedImage: answer5Selected,
+    defaultImage: ANSWER_5_DEFAULT_IMAGE,
+    selectedImage: ANSWER_5_SELECTED_IMAGE,
   },
+];
+
+const ANSWER_IMAGE_ASSETS = ANSWER_OPTIONS.flatMap((option) => [
+  option.defaultImage,
+  option.selectedImage,
+]);
+
+const CRITICAL_IMAGE_ASSETS = [
+  QUIZ_PAGE_BACKGROUND_IMAGE,
+  QUIZ_BANNER_IMAGE,
+  QUIZ_HERO_GRADIENT_IMAGE,
+  QUESTION_FRAME_IMAGE,
+  RESULT_BUTTON_IMAGE,
+  QUIZ_FOOTER_IMAGE,
+  ...ANSWER_IMAGE_ASSETS,
+];
+
+const SECONDARY_IMAGE_ASSETS = [
+  RESULT_STABLE_BANNER_IMAGE,
+  RESULT_FATIGUE_BANNER_IMAGE,
+  RESULT_EXTREME_BANNER_IMAGE,
+  COLLECT_BANNER_IMAGE,
+  CONTINUE_BUTTON_IMAGE,
+  COLLECT_SUBMIT_BUTTON_IMAGE,
+  RECOVERY_MASCOT_IMAGE,
+  BASIC_TITLE_IMAGE,
+  IMPORTANT_TITLE_IMAGE,
+  RECOVERY_TITLE_IMAGE,
+  VITAMIN_CLUSTER_IMAGE,
+  ALERT_ICON_IMAGE,
+  BULLET_IMAGE,
+  HAPPENING_ENERGY_IMAGE,
+  HAPPENING_FOCUS_IMAGE,
+  HAPPENING_BODY_IMAGE,
+  CHECKLIST_IMAGE,
+  ...BASIC_HABIT_ICONS,
 ];
 
 const QUESTIONS = [
@@ -137,12 +266,49 @@ const QUESTIONS = [
   },
 ];
 
+const QUESTION_ANSWER_LABELS = {
+  q1: ["Luôn luôn", "Thường xuyên", "Thỉnh thoảng", "Ít khi", "Không bao giờ"],
+  q2: ["Luôn luôn", "Thường xuyên", "Thỉnh thoảng", "Ít khi", "Không bao giờ"],
+  q3: ["Rất thấp", "Thấp", "Bình thường", "Khá tốt", "Rất tốt"],
+  q4: ["Rất thấp", "Thấp", "Bình thường", "Khá tốt", "Rất tốt"],
+  q5: ["Rất mệt", "Hơi mệt", "Bình thường", "Khá khỏe", "Rất khỏe"],
+  q6: [
+    "Rất khó bắt đầu",
+    "Khó bắt đầu",
+    "Bình thường",
+    "Khá sẵn sàng",
+    "Rất sẵn sàng",
+  ],
+  q7: [
+    "Hiếm khi",
+    "Không ổn định",
+    "Bình thường",
+    "Khá rõ ràng",
+    "Rất rõ ràng",
+  ],
+  q8: [
+    "Không còn hứng thú",
+    "Ít hứng thú",
+    "Bình thường",
+    "Khá hứng thú",
+    "Rất hứng thú",
+  ],
+  q9: ["Rất không ổn", "Không ổn", "Bình thường", "Khá ổn", "Rất ổn"],
+  q10: [
+    "Rất kém",
+    "Kém",
+    "Bình thường",
+    "Tốt",
+    "Rất tốt",
+  ],
+};
+
 const PROFILE_FIELDS = [
   {
     id: "ageGroup",
     layout: "inline",
     label: "Bạn đang ở nhóm tuổi nào? *",
-    options: ["Dưới 25", "25 - 34", "35 - 44", "Trên 45"],
+    options: ["Dưới 25", "25 - 34", "35 - 44", "45+"],
   },
   {
     id: "gender",
@@ -156,9 +322,9 @@ const PROFILE_FIELDS = [
     label: "Công việc hiện tại của bạn gần với nhóm nào nhất? *",
     options: [
       "IT / Công nghệ",
-      "Marketing / Sáng tạo",
+      "Học sinh / sinh viên",
       "Kinh doanh / Sales",
-      "Nhân viên văn phòng (hành chính, kế toán...)",
+      "Nhân viên văn phòng (Marketing, hành chính, kế toán…)",
       "Sản xuất / Nhà máy / Kỹ thuật vận hành",
       "Dịch vụ / Bán lẻ / F&B",
       "Tự do / Freelance / Kinh doanh cá nhân",
@@ -187,7 +353,8 @@ const RESULT_CONFIGS = [
     meterLabel: "Vẫn ổn",
     meterValue: 0.82,
     meterTone: "green",
-    mascotImage: answer5Selected,
+    bannerImage: RESULT_STABLE_BANNER_IMAGE,
+    mascotImage: ANSWER_5_SELECTED_IMAGE,
     statusCopy:
       "Bạn vẫn đang làm tốt mỗi ngày - chưa có gì khiến bạn phải “đuối”.",
     whatCopy:
@@ -201,13 +368,14 @@ const RESULT_CONFIGS = [
     ],
     warning: "Hãy chủ động phục hồi thể chất và tinh thần từ sớm!",
     habits: [
-      "Ăn uống cân bằng và đa dạng",
-      "Vận động thường xuyên",
-      "Ngủ đủ và sâu hơn",
+      "Ăn uống cân bằng và đa dạng.",
+      "Vận động thường xuyên.",
+      "Ngủ đủ và sâu hơn.",
     ],
     supplement:
       "Bổ sung vitamin và khoáng chất trong trường hợp thiếu hụt (như chế độ ăn không đa dạng) và tăng nhu cầu (như làm việc cường độ cao) để cải thiện sức khỏe tinh thần như giảm căng thẳng và bớt mệt mỏi.",
-    recoveryTitle: "Khi cơ thể được phục hồi đúng cách",
+    recoveryTitle: "Khi cơ thể bắt đầu phục hồi đúng cách",
+    recoveryTitleMobile: "Khi cơ thể bắt đầu|phục hồi đúng cách",
     recoveryCopy:
       "Bạn sẽ không cần gồng mà vẫn luôn sẵn sàng để đón mọi thứ phía trước!",
     recoveryPoints: [
@@ -224,7 +392,8 @@ const RESULT_CONFIGS = [
     meterLabel: "Mệt mỏi",
     meterValue: 0.48,
     meterTone: "yellow",
-    mascotImage: answer3Selected,
+    bannerImage: RESULT_FATIGUE_BANNER_IMAGE,
+    mascotImage: ANSWER_3_SELECTED_IMAGE,
     statusCopy:
       "Bạn bắt đầu cảm nhận rõ sự mệt mỏi. Không còn là “cũng ổn” nữa mà đã có những lúc đuối, mất tập trung hoặc thiếu năng lượng để duy trì nhịp làm việc như trước.",
     whatCopy:
@@ -239,13 +408,14 @@ const RESULT_CONFIGS = [
     warning:
       "Đừng để tình trạng này kéo dài. Hãy chủ động phục hồi thể chất và tinh thần càng sớm càng tốt.",
     habits: [
-      "Ăn uống cân bằng và đa dạng",
-      "Vận động thường xuyên",
-      "Ngủ đủ và sâu hơn",
+      "Ăn uống cân bằng và đa dạng.",
+      "Vận động thường xuyên.",
+      "Ngủ đủ và sâu hơn.",
     ],
     supplement:
       "Bổ sung vitamin và khoáng chất trong trường hợp thiếu hụt (như chế độ ăn không đa dạng) và tăng nhu cầu (như làm việc cường độ cao) để cải thiện sức khỏe tinh thần như giảm căng thẳng và bớt mệt mỏi.",
-    recoveryTitle: "Khi cơ thể được phục hồi đúng cách",
+    recoveryTitle: "Khi cơ thể bắt đầu phục hồi đúng cách",
+    recoveryTitleMobile: "Khi cơ thể bắt đầu|phục hồi đúng cách",
     recoveryCopy:
       "Bạn sẽ không cần gồng để vượt qua mà đủ sức để đón lấy!",
     recoveryPoints: [
@@ -262,7 +432,8 @@ const RESULT_CONFIGS = [
     meterLabel: "Quá tải",
     meterValue: 0.16,
     meterTone: "red",
-    mascotImage: answer2Selected,
+    bannerImage: RESULT_EXTREME_BANNER_IMAGE,
+    mascotImage: ANSWER_2_SELECTED_IMAGE,
     statusCopy:
       "Bạn đang ở trạng thái mệt mỏi rõ rệt. Năng lượng giảm sâu, cơ thể dễ đuối, tinh thần khó tập trung và mọi thứ bắt đầu trở nên nặng nề hơn bình thường.",
     whatCopy:
@@ -277,15 +448,16 @@ const RESULT_CONFIGS = [
     warning:
       "Đừng tiếp tục “gồng” thêm nữa! Bạn cần phục hồi một cách nghiêm túc và đúng cách ngay lúc này.",
     habits: [
-      "Ăn uống cân bằng và đa dạng",
-      "Vận động thường xuyên",
-      "Ngủ đủ và sâu hơn",
+      "Ăn uống cân bằng và đa dạng.",
+      "Vận động thường xuyên.",
+      "Ngủ đủ và sâu hơn.",
     ],
     supplement:
       "Bổ sung vitamin và khoáng chất trong trường hợp thiếu hụt (như chế độ ăn không đa dạng) và tăng nhu cầu (như làm việc cường độ cao) để cải thiện sức khỏe tinh thần như giảm căng thẳng và bớt mệt mỏi.",
     supportNote:
       "Lưu ý: Nếu tình trạng mệt mỏi kéo dài hoặc ảnh hưởng nhiều đến sinh hoạt, bạn nên tìm đến chuyên gia y tế để được tư vấn phù hợp.",
-    recoveryTitle: "Khi cơ thể được phục hồi đúng cách",
+    recoveryTitle: "Khi cơ thể bắt đầu phục hồi đúng cách",
+    recoveryTitleMobile: "Khi cơ thể bắt đầu|phục hồi đúng cách",
     recoveryCopy:
       "Bạn sẽ không cần gồng để vượt qua mà đủ sức để đón lấy!",
     recoveryPoints: [
@@ -334,6 +506,99 @@ function getSelectedOption(answerIndex) {
   return ANSWER_OPTIONS[answerIndex] ?? null;
 }
 
+function getQuestionAnswerLabels(questionId) {
+  return QUESTION_ANSWER_LABELS[questionId] ?? ANSWER_OPTIONS.map(({ label }) => label);
+}
+
+function getAnswerLabel(questionId, answerIndex) {
+  if (answerIndex === null || answerIndex === undefined) {
+    return "";
+  }
+
+  return getQuestionAnswerLabels(questionId)[answerIndex] ?? "";
+}
+
+function preloadImageAssets(assets, { fetchPriority = "auto", usePreloadLink = false } = {}) {
+  if (typeof window === "undefined") {
+    return;
+  }
+
+  const seenSources = new Set();
+
+  assets.forEach((asset) => {
+    if (!asset?.src || seenSources.has(asset.src)) {
+      return;
+    }
+
+    seenSources.add(asset.src);
+
+    if (usePreloadLink && typeof document !== "undefined") {
+      const existingLink = document.head.querySelector(
+        `link[rel="preload"][href="${asset.src}"]`,
+      );
+
+      if (!existingLink) {
+        const link = document.createElement("link");
+        link.rel = "preload";
+        link.as = "image";
+        link.href = asset.src;
+        link.fetchPriority = fetchPriority;
+        document.head.append(link);
+      }
+    }
+
+    const image = new Image();
+    image.decoding = "async";
+    image.fetchPriority = fetchPriority;
+    image.src = asset.src;
+  });
+}
+
+function scheduleImagePreload(assets) {
+  if (typeof window === "undefined") {
+    return undefined;
+  }
+
+  if ("requestIdleCallback" in window) {
+    const idleId = window.requestIdleCallback(
+      () => preloadImageAssets(assets, { fetchPriority: "low" }),
+      { timeout: 1800 },
+    );
+
+    return () => window.cancelIdleCallback(idleId);
+  }
+
+  const preloadTimer = window.setTimeout(
+    () => preloadImageAssets(assets, { fetchPriority: "low" }),
+    700,
+  );
+
+  return () => window.clearTimeout(preloadTimer);
+}
+
+function AssetImage({
+  image,
+  alt = "",
+  decorative = false,
+  loading = "lazy",
+  fetchPriority = "auto",
+  ...props
+}) {
+  return (
+    <img
+      src={image.src}
+      width={image.width}
+      height={image.height}
+      alt={decorative ? "" : alt}
+      aria-hidden={decorative ? "true" : undefined}
+      decoding="async"
+      loading={loading}
+      fetchPriority={fetchPriority}
+      {...props}
+    />
+  );
+}
+
 function calculateTotalScore(answers) {
   return answers.reduce((sum, answerIndex) => {
     const selected = getSelectedOption(answerIndex);
@@ -352,22 +617,6 @@ function getResultLevelLabel(resultKey) {
 
   if (resultKey === "extreme-fatigue") {
     return "Gồng quá mức";
-  }
-
-  return "";
-}
-
-function getResultBannerHeadline(resultKey) {
-  if (resultKey === "stable") {
-    return "VẪN ỔN\nCHƯA GỒNG";
-  }
-
-  if (resultKey === "fatigue") {
-    return "GỒNG THẤY RÕ";
-  }
-
-  if (resultKey === "extreme-fatigue") {
-    return "GỒNG QUÁ MỨC!";
   }
 
   return "";
@@ -414,7 +663,7 @@ function normalizeJobType(jobGroup) {
       "Sản xuất/Nhà máy/Kỹ thuật vận hành",
     "Dịch vụ / Bán lẻ / F&B": "Dịch vụ/Bán lẻ/F&B",
     "Tự do / Freelance / Kinh doanh cá nhân": "Freelancer",
-    Khác: "Khác",
+    "Kh\u00e1c": "Kh\u00e1c",
   };
 
   return mappings[jobGroup] ?? jobGroup;
@@ -433,30 +682,49 @@ function normalizeWorkNature(workNature) {
   return mappings[workNature] ?? workNature;
 }
 
+function getSubmissionPhaseSessionId(sessionId, phase) {
+  return `${sessionId}:${phase}`;
+}
+
+function getSubmissionPhaseId(sessionId, phase) {
+  return `submission-${phase}-${sessionId}`;
+}
+
 function buildQuizSubmissionPayload({
   answers,
   form,
   result,
   totalScore,
-  sessionId,
-  submissionId,
+  serverUserId,
+  phase = COLLECT_INFO_SUBMISSION_PHASE,
 }) {
-  const answerTexts = answers.map(
-    (answerIndex) => getSelectedOption(answerIndex)?.label ?? "",
-  );
+  const answerTexts = answers.map((answerIndex, questionIndex) => {
+    const question = QUESTIONS[questionIndex];
+    return getAnswerLabel(question?.id, answerIndex);
+  });
 
   const resultLevel = getResultLevelLabel(result.key);
+  const isCollectSubmission = phase === COLLECT_INFO_SUBMISSION_PHASE;
+
+  if (isCollectSubmission) {
+    return {
+      token: SECRET_TOKEN,
+      action: "update",
+      userId: serverUserId,
+      timestamp: new Date().toISOString(),
+      ageGroup: normalizeAgeGroup(form.ageGroup),
+      gender: form.gender,
+      jobGroup: normalizeJobType(form.jobGroup),
+      workNature: normalizeWorkNature(form.workNature),
+      question_open: form.doctorQuestion.trim() || "Không có",
+    };
+  }
 
   return {
     token: SECRET_TOKEN,
-    payloadVersion: "berocca-fas-flow-v3",
+    action: "create",
     timestamp: new Date().toISOString(),
-    submission_id: submissionId,
-    dedupe_key: sessionId,
-    client_session_id: sessionId,
-    session_id: sessionId,
     total_score: totalScore,
-    score: totalScore,
     q1: answerTexts[0],
     q2: answerTexts[1],
     q3: answerTexts[2],
@@ -467,30 +735,31 @@ function buildQuizSubmissionPayload({
     q8: answerTexts[7],
     q9: answerTexts[8],
     q10: answerTexts[9],
-    answers: answerTexts,
     result_level: resultLevel,
-    level: resultLevel,
-    age_group: normalizeAgeGroup(form.ageGroup),
-    gender: form.gender,
-    job_type: normalizeJobType(form.jobGroup),
-    work_nature: normalizeWorkNature(form.workNature),
-    question_open: form.doctorQuestion.trim() || "Không có",
   };
 }
 
 function StageBanner({ image, alt }) {
   return (
     <section className="stage-banner">
-      <img src={image} alt={alt} />
+      <AssetImage
+        image={image}
+        alt={alt}
+        loading="eager"
+        fetchPriority="high"
+      />
     </section>
   );
 }
 
-function ImageButton({ image, label, ...props }) {
+function ImageButton({ image, label, className = "", ...props }) {
+  const buttonClassName = className
+    ? `image-button ${className}`
+    : "image-button";
+
   return (
-    <button className="image-button" aria-label={label} {...props}>
-      <img src={image} alt="" aria-hidden="true" />
-      <span className="sr-only">{label}</span>
+    <button className={buttonClassName} aria-label={label} {...props}>
+      <AssetImage image={image} decorative loading="eager" fetchPriority="high" />
     </button>
   );
 }
@@ -577,7 +846,7 @@ function NoticeIcon({ state }) {
 function getStatusNoticeMeta(state) {
   if (state === "success") {
     return {
-      title: "Lưu thành công",
+      title: "Đã gửi câu hỏi của bạn đến bác sĩ. Cảm ơn bạn đã tham gia!",
       badge: "Thành công",
     };
   }
@@ -591,8 +860,8 @@ function getStatusNoticeMeta(state) {
 
   if (state === "error") {
     return {
-      title: "Không thể lưu lúc này",
-      badge: "Cảnh báo",
+      title: "Th\u00f4ng tin ch\u01b0a ho\u00e0n t\u1ea5t!",
+      badge: "",
     };
   }
 
@@ -602,7 +871,7 @@ function getStatusNoticeMeta(state) {
   };
 }
 
-function StatusNotice({ state = "info", message }) {
+function StatusNotice({ state = "info", title, message }) {
   const meta = getStatusNoticeMeta(state);
   const role = state === "error" ? "alert" : "status";
 
@@ -615,13 +884,17 @@ function StatusNotice({ state = "info", message }) {
       <span className="status-notice__rail" aria-hidden="true" />
 
       <div className="status-notice__icon">
-        <NoticeIcon state={state} />
+        {state === "error" ? (
+          <AssetImage image={ALERT_ICON_IMAGE} decorative loading="eager" />
+        ) : (
+          <NoticeIcon state={state} />
+        )}
       </div>
 
       <div className="status-notice__copy">
         <div className="status-notice__topline">
-          <strong>{meta.title}</strong>
-          <span className="status-notice__badge">{meta.badge}</span>
+          <strong>{title ?? meta.title}</strong>
+          {meta.badge ? <span className="status-notice__badge">{meta.badge}</span> : null}
         </div>
         <p>{message}</p>
       </div>
@@ -630,12 +903,19 @@ function StatusNotice({ state = "info", message }) {
 }
 
 function QuizHeroSection() {
+  const [footnoteLead, ...footnoteTailParts] = QUIZ_HERO_CONTENT.footnote.split(
+    " - ",
+  );
+  const footnoteTail = footnoteTailParts.join(" - ");
+
   return (
     <section className="quiz-hero">
       <div className="quiz-hero__media">
-        <img
-          src={quizBanner}
-          alt="Bạn đang ổn hay đang gồng mà chưa nhận ra?"
+        <AssetImage
+          image={QUIZ_BANNER_IMAGE}
+          alt={QUIZ_BANNER_ALT}
+          loading="eager"
+          fetchPriority="high"
         />
       </div>
 
@@ -645,7 +925,14 @@ function QuizHeroSection() {
           <p className="quiz-hero__highlight">{QUIZ_HERO_CONTENT.highlight}</p>
           <p className="quiz-hero__cta">{QUIZ_HERO_CONTENT.cta}</p>
         </div>
-        <p className="quiz-hero__footnote">{QUIZ_HERO_CONTENT.footnote}</p>
+        <p className="quiz-hero__footnote">
+          <span className="quiz-hero__footnote-line">
+            {footnoteTail ? `${footnoteLead} -` : footnoteLead}
+          </span>
+          {footnoteTail ? (
+            <span className="quiz-hero__footnote-line"> {footnoteTail}</span>
+          ) : null}
+        </p>
       </div>
     </section>
   );
@@ -663,100 +950,70 @@ function BatteryMeter({ tone, value }) {
   );
 }
 
-function SignalIcon({ type }) {
-  if (type === "energy") {
-    return (
-      <svg viewBox="0 0 48 48" aria-hidden="true">
-        <path d="M25 5 11 26h10l-3 17 19-24H27l-2-14Z" fill="currentColor" />
-      </svg>
-    );
-  }
+const ChoiceOption = memo(function ChoiceOption({
+  option,
+  optionIndex,
+  label,
+  selected,
+  onSelect,
+}) {
+  const optionImage = selected ? option.selectedImage : option.defaultImage;
 
-  if (type === "focus") {
-    return (
-      <svg viewBox="0 0 48 48" aria-hidden="true">
-        <circle
-          cx="24"
-          cy="24"
-          r="15"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="4"
-        />
-        <circle cx="24" cy="24" r="3.5" fill="currentColor" />
-        <path
-          d="M24 8v5M24 35v5M8 24h5M35 24h5"
-          stroke="currentColor"
-          strokeWidth="4"
-          strokeLinecap="round"
-        />
-      </svg>
-    );
-  }
-
-  return (
-    <svg viewBox="0 0 48 48" aria-hidden="true">
-      <path
-        d="M24 9c7 0 14 5 14 14 0 10-8 16-14 16S10 33 10 23C10 14 17 9 24 9Z"
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="4"
-      />
-      <path
-        d="M16 18c2 4 4 6 8 6s6-2 8-6"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <path
-        d="M20 27c0 4-2 7-5 9M28 27c0 4 2 7 5 9"
-        stroke="currentColor"
-        strokeWidth="4"
-        strokeLinecap="round"
-        fill="none"
-      />
-    </svg>
-  );
-}
-
-function ChoiceOption({ option, optionIndex, selected, onSelect }) {
   return (
     <button
       type="button"
       className={`choice-card${selected ? " is-selected" : ""}`}
       onClick={() => onSelect(optionIndex)}
+      onPointerDown={(event) => {
+        if (event.pointerType !== "mouse") {
+          onSelect(optionIndex);
+        }
+      }}
       aria-pressed={selected}
     >
       <div className="choice-card__image">
-        <img
-          src={selected ? option.selectedImage : option.defaultImage}
-          alt=""
-          aria-hidden="true"
+        <AssetImage
+          image={optionImage}
+          decorative
+          loading="eager"
+          fetchPriority="high"
         />
       </div>
-      <span className="choice-card__label">{option.label}</span>
+      <span className="choice-card__label">{label}</span>
     </button>
   );
-}
+});
 
-function QuestionCard({ question, answerIndex, onSelect }) {
+const QuestionCard = memo(function QuestionCard({
+  question,
+  questionIndex,
+  answerIndex,
+  onAnswerChange,
+}) {
   const selectedOption = getSelectedOption(answerIndex);
+  const answerLabels = getQuestionAnswerLabels(question.id);
+  const hasDoubleDigitLabel = /\d{2,}/.test(question.label);
+  const hasLongPrompt = question.prompt.length >= 42;
+  const hasExtraLongPrompt = question.prompt.length >= 72;
+  const handleSelect = useCallback(
+    (optionIndex) => onAnswerChange(questionIndex, optionIndex),
+    [onAnswerChange, questionIndex],
+  );
 
   return (
     <section
-      className={`question-card${selectedOption ? " is-answered" : ""}`}
+      className={`question-card${selectedOption ? " is-answered" : ""}${hasDoubleDigitLabel ? " question-card--double-digit" : ""}${hasLongPrompt ? " question-card--long-prompt" : ""}${hasExtraLongPrompt ? " question-card--extra-long-prompt" : ""}`}
       id={question.id}
       data-question-id={question.id}
     >
       <div
         className="question-card__frame"
-        style={{ backgroundImage: `url(${questionFrameImage})` }}
+        style={{ backgroundImage: `url(${QUESTION_FRAME_IMAGE.src})` }}
       >
         <div className="question-card__overlay">
           <div className="question-card__header">
             <div className="question-card__meta">
-              <span className="question-card__label">{question.label}</span>
+              <span className="question-card__label">{`${question.label}:`}</span>
             </div>
 
             <div className="question-card__content">
@@ -770,8 +1027,9 @@ function QuestionCard({ question, answerIndex, onSelect }) {
                 key={option.label}
                 option={option}
                 optionIndex={optionIndex}
+                label={answerLabels[optionIndex] ?? option.label}
                 selected={answerIndex === optionIndex}
-                onSelect={onSelect}
+                onSelect={handleSelect}
               />
             ))}
           </div>
@@ -779,7 +1037,7 @@ function QuestionCard({ question, answerIndex, onSelect }) {
       </div>
     </section>
   );
-}
+});
 
 function QuizScreen({
   answers,
@@ -788,7 +1046,13 @@ function QuizScreen({
   validationMessage,
 }) {
   return (
-    <div className="content-column content-column--quiz">
+    <div
+      className="content-column content-column--quiz"
+      style={{
+        "--quiz-hero-gradient-image": `url(${QUIZ_HERO_GRADIENT_IMAGE.src})`,
+        "--quiz-footer-image": `url(${QUIZ_FOOTER_IMAGE.src})`,
+      }}
+    >
       <QuizHeroSection />
 
       <div className="questions-stack">
@@ -796,20 +1060,22 @@ function QuizScreen({
           <QuestionCard
             key={question.id}
             question={question}
+            questionIndex={questionIndex}
             answerIndex={answers[questionIndex]}
-            onSelect={(optionIndex) => onAnswerChange(questionIndex, optionIndex)}
+            onAnswerChange={onAnswerChange}
           />
         ))}
       </div>
 
-      <div className="actions-center">
+      <div className="actions-center quiz-footer">
         {validationMessage ? (
           <StatusNotice state="error" message={validationMessage} />
         ) : null}
 
         <ImageButton
           type="button"
-          image={resultButtonImage}
+          className="quiz-footer__button"
+          image={RESULT_BUTTON_IMAGE}
           label="Xem kết quả"
           onClick={onShowResult}
         />
@@ -818,22 +1084,22 @@ function QuizScreen({
   );
 }
 
-function ResultScreen({ totalScore, onContinue, onRestart }) {
+function ResultScreen({ totalScore, onContinue }) {
   const result = getResultConfig(totalScore);
-  const bannerHeadline = getResultBannerHeadline(result.key);
 
   return (
     <div className="content-column content-column--result">
-      <section className="result-hero-banner">
-        <img src={resultBanner} alt="Kết quả của bạn" />
-        <div className="result-hero-banner__copy">
-          <h1>{bannerHeadline}</h1>
-        </div>
-      </section>
+      <StageBanner image={result.bannerImage} alt={RESULT_BANNER_ALT} />
 
       <section
         className="result-block result-block--framed result-block--status"
-        style={{ "--result-frame-image": `url(${questionFrameImage})` }}
+        style={{
+          "--result-frame-image": `url(${QUESTION_FRAME_IMAGE.src})`,
+          backgroundImage: `url(${QUIZ_HERO_GRADIENT_IMAGE.src})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+        }}
       >
         <div className="result-block__header">
           <h2>Tình trạng hiện tại của bạn</h2>
@@ -846,7 +1112,7 @@ function ResultScreen({ totalScore, onContinue, onRestart }) {
 
       <section
         className="result-block result-block--framed result-block--insight"
-        style={{ "--result-frame-image": `url(${questionFrameImage})` }}
+        style={{ "--result-frame-image": `url(${QUESTION_FRAME_IMAGE.src})` }}
       >
         <div className="result-block__header">
           <h2>Điều đang xảy ra?</h2>
@@ -858,24 +1124,29 @@ function ResultScreen({ totalScore, onContinue, onRestart }) {
           </p>
 
           <div className="result-signal-row">
-            {result.signals.map((signal) => (
-              <div key={signal.title} className="result-signal">
-                <div className="result-signal__icon">
-                  <SignalIcon type={signal.icon} />
+            {result.signals.map((signal) => {
+              const signalImage =
+                HAPPENING_SIGNAL_IMAGES[signal.icon] ?? HAPPENING_SIGNAL_IMAGES.energy;
+
+              return (
+                <div key={signal.title} className="result-signal">
+                  <div className="result-signal__icon">
+                    <AssetImage image={signalImage} decorative />
+                  </div>
+                  <div className="result-signal__text">
+                    <strong>{signal.title}:</strong>
+                    <span>{signal.value}</span>
+                  </div>
                 </div>
-                <div className="result-signal__text">
-                  <strong>{signal.title}:</strong>
-                  <span>{signal.value}</span>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
 
           <p className="result-block__paragraph">{result.insightNote}</p>
 
           <div className="result-alert">
             <div className="result-alert__icon" aria-hidden="true">
-              !
+              <AssetImage image={ALERT_ICON_IMAGE} decorative />
             </div>
             <p>{result.warning}</p>
           </div>
@@ -884,16 +1155,36 @@ function ResultScreen({ totalScore, onContinue, onRestart }) {
 
       <section className="result-support-layout">
         <article className="result-basic-card">
+          <h2 className="result-title-image" aria-hidden="true">
+            <AssetImage image={BASIC_TITLE_IMAGE} decorative />
+          </h2>
           <h2>Bắt đầu từ những điều cơ bản:</h2>
           <ul className="result-basic-list">
-            {result.habits.map((habit) => (
-              <li key={habit}>{habit}</li>
-            ))}
+            {result.habits.map((habit, index) => {
+              const habitIcon = BASIC_HABIT_ICONS[index] ?? BASIC_HABIT_ICONS[0];
+
+              return (
+                <li key={habit}>
+                  <AssetImage
+                    className="result-basic-list__icon"
+                    image={habitIcon}
+                    decorative
+                  />
+                  <span>{habit}</span>
+                  <AssetImage
+                    className="result-basic-list__check"
+                    image={CHECKLIST_IMAGE}
+                    decorative
+                  />
+                </li>
+              );
+            })}
           </ul>
         </article>
 
         <article className="result-important-card">
           <div className="result-important-card__header">
+            <AssetImage image={IMPORTANT_TITLE_IMAGE} decorative />
             <span>Quan trọng</span>
           </div>
 
@@ -906,6 +1197,7 @@ function ResultScreen({ totalScore, onContinue, onRestart }) {
             </div>
 
             <div className="result-vitamin-cluster" aria-hidden="true">
+              <AssetImage image={VITAMIN_CLUSTER_IMAGE} decorative />
               <span className="result-vitamin-cluster__center">
                 CÁC VITAMIN
                 <small>& KHOÁNG CHẤT</small>
@@ -928,32 +1220,70 @@ function ResultScreen({ totalScore, onContinue, onRestart }) {
       </section>
 
       <section className="result-recovery-panel">
-        <div className="result-recovery-panel__copy">
-          <h2>{result.recoveryTitle}</h2>
-          <p>{result.recoveryCopy}</p>
+        <h2 className="result-title-image result-title-image--recovery result-recovery-panel__title">
+          <AssetImage
+            image={RECOVERY_TITLE_IMAGE}
+            alt={result.recoveryTitle}
+          />
+        </h2>
 
-          <ul className="result-recovery-panel__points">
-            {result.recoveryPoints.map((point) => (
-              <li key={point}>{point}</li>
-            ))}
-          </ul>
-        </div>
+        <div className="result-recovery-panel__body">
+          <div className="result-recovery-panel__copy">
+            <h2>
+              {(result.recoveryTitleMobile ?? result.recoveryTitle)
+                .split("|")
+                .map((line) => (
+                  <span key={line}>{line}</span>
+                ))}
+            </h2>
+            <p>{result.recoveryCopy}</p>
 
-        <div className="result-recovery-panel__art">
-          <img src={answer5Selected} alt="" aria-hidden="true" />
+            <ul className="result-recovery-panel__points">
+              {result.recoveryPoints.map((point) => (
+                <li key={point}>
+                  <AssetImage
+                    className="result-recovery-panel__bullet"
+                    image={BULLET_IMAGE}
+                    decorative
+                  />
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+
+          <div className="result-recovery-panel__art">
+            <AssetImage image={RECOVERY_MASCOT_IMAGE} decorative />
+          </div>
         </div>
       </section>
 
       <div className="actions-center result-actions">
+        <div className="result-sources" aria-label="Nguồn tham khảo">
+          <p>Nguồn:</p>
+          <ol>
+            <li>
+              World Health Organization. (2020, April 29). Healthy diet.
+              https://www.who.int/news-room/fact-sheets/detail/healthy-diet
+            </li>
+            <li>
+              World Health Organization. (2020). WHO guidelines on physical activity
+              and sedentary behaviour. World Health Organization.
+              https://www.who.int/publications/i/item/9789240015128
+            </li>
+            <li>
+              World Health Organization. (2004). Technical meeting on sleep and health.
+              WHO Regional Office for Europe.
+              https://iris.who.int/items/c51d4655-2b2a-4f1a-affb-a15155a67c95
+            </li>
+          </ol>
+        </div>
         <ImageButton
           type="button"
-          image={continueButtonImage}
+          image={CONTINUE_BUTTON_IMAGE}
           label="Xem tiếp"
           onClick={onContinue}
         />
-        <button type="button" className="secondary-button" onClick={onRestart}>
-          Làm lại bài test
-        </button>
       </div>
     </div>
   );
@@ -964,13 +1294,14 @@ function CollectScreen({
   onChange,
   onSubmit,
   onBack,
-  onRestart,
   submitState,
   formMessage,
 }) {
+  const fieldsDisabled = submitState === "saving" || submitState === "success";
+
   return (
     <div className="content-column content-column--collect">
-      <StageBanner image={collectBanner} alt="Chia sẻ thông tin" />
+      <StageBanner image={COLLECT_BANNER_IMAGE} alt={COLLECT_BANNER_ALT} />
 
       <section className="collect-intro">
         <p>
@@ -997,6 +1328,7 @@ function CollectScreen({
                       name={field.id}
                       value={option}
                       checked={checked}
+                      disabled={fieldsDisabled}
                       onChange={(event) => onChange(field.id, event.target.value)}
                     />
                     <span className="select-chip__box" />
@@ -1019,6 +1351,7 @@ function CollectScreen({
             value={form.doctorQuestion}
             onChange={(event) => onChange("doctorQuestion", event.target.value)}
             rows={5}
+            disabled={fieldsDisabled}
             placeholder="Nhập câu hỏi hoặc điều bạn đang quan tâm..."
           />
           <p className="collect-group__note">
@@ -1038,26 +1371,33 @@ function CollectScreen({
                     ? "warning"
                     : "info"
             }
+            title={
+              submitState === "error"
+                ? "S\u1eafp ho\u00e0n th\u00e0nh r\u1ed3i!"
+                : undefined
+            }
             message={formMessage}
           />
         ) : null}
 
         <div className="actions-center actions-center--collect">
-          <button
+          <ImageButton
             type="submit"
             className="collect-submit-button"
+            image={COLLECT_SUBMIT_BUTTON_IMAGE}
+            label={getCollectSubmitLabel(submitState)}
             disabled={submitState === "saving" || submitState === "success"}
-          >
-            <span>{getCollectSubmitLabel(submitState)}</span>
-          </button>
+          />
 
-          <button
-            type="button"
-            className="secondary-button collect-secondary-button"
-            onClick={submitState === "success" ? onRestart : onBack}
-          >
-            {submitState === "success" ? "Làm lại bài test" : "Xem lại kết quả"}
-          </button>
+          {submitState === "success" ? null : (
+            <button
+              type="button"
+              className="secondary-button collect-secondary-button"
+              onClick={onBack}
+            >
+              Xem lại kết quả
+            </button>
+          )}
         </div>
       </form>
     </div>
@@ -1079,6 +1419,7 @@ export default function BeroccaFASQuiz() {
   const [formMessage, setFormMessage] = useState("");
   const [totalScore, setTotalScore] = useState(initialState.totalScore);
   const [sessionId, setSessionId] = useState(initialState.sessionId);
+  const [serverUserId, setServerUserId] = useState(initialState.serverUserId ?? null);
   const syncTimerRef = useRef(null);
   const isSyncingQueueRef = useRef(false);
   const flushSubmissionQueueRef = useRef(async () => {});
@@ -1103,19 +1444,25 @@ export default function BeroccaFASQuiz() {
     }, Math.max(0, delayMs));
   }
 
+  function getPhaseSessionId(phase) {
+    return getSubmissionPhaseSessionId(sessionId, phase);
+  }
+
   const syncCurrentSessionSubmissionState = useEffectEvent(
     ({ preserveSavingState = true } = {}) => {
       if (stage !== "collect") {
         return;
       }
 
-      if (hasAcknowledgedSession(sessionId)) {
+      const collectPhaseSessionId = getPhaseSessionId(COLLECT_INFO_SUBMISSION_PHASE);
+
+      if (hasAcknowledgedSession(collectPhaseSessionId)) {
       setSubmitState("success");
       setFormMessage(SUCCESS_SUBMISSION_MESSAGE);
       return;
     }
 
-    const queuedSubmission = getQueuedSubmissionBySession(sessionId);
+    const queuedSubmission = getQueuedSubmissionBySession(collectPhaseSessionId);
 
     if (!queuedSubmission) {
       if (
@@ -1226,7 +1573,10 @@ export default function BeroccaFASQuiz() {
             submissionId: nextSubmission.id,
           });
 
-          if (nextSubmission.sessionId === sessionId) {
+          if (
+            nextSubmission.sessionId ===
+            getSubmissionPhaseSessionId(sessionId, COLLECT_INFO_SUBMISSION_PHASE)
+          ) {
             setSubmitState("success");
             setFormMessage(SUCCESS_SUBMISSION_MESSAGE);
           }
@@ -1252,7 +1602,10 @@ export default function BeroccaFASQuiz() {
             isTerminalFailure: !retryable,
           });
 
-          if (nextSubmission.sessionId === sessionId) {
+          if (
+            nextSubmission.sessionId ===
+            getSubmissionPhaseSessionId(sessionId, COLLECT_INFO_SUBMISSION_PHASE)
+          ) {
             if (retryable) {
               setSubmitState("queued");
               setFormMessage(QUEUED_SUBMISSION_MESSAGE);
@@ -1275,6 +1628,47 @@ export default function BeroccaFASQuiz() {
     }
   };
 
+  const redirectToQuizAfterSuccessfulSubmit = useEffectEvent(() => {
+    handleRestart();
+  });
+
+  useEffect(() => {
+    if (typeof document === "undefined") {
+      return;
+    }
+
+    document.title = SEO_TITLE;
+
+    let descriptionTag = document.head.querySelector('meta[name="description"]');
+
+    if (!descriptionTag) {
+      descriptionTag = document.createElement("meta");
+      descriptionTag.setAttribute("name", "description");
+      document.head.append(descriptionTag);
+    }
+
+    descriptionTag.setAttribute("content", SEO_DESCRIPTION);
+
+    let canonicalTag = document.head.querySelector('link[rel="canonical"]');
+
+    if (!canonicalTag) {
+      canonicalTag = document.createElement("link");
+      canonicalTag.setAttribute("rel", "canonical");
+      document.head.append(canonicalTag);
+    }
+
+    canonicalTag.setAttribute("href", SEO_URL);
+  }, []);
+
+  useEffect(() => {
+    preloadImageAssets(CRITICAL_IMAGE_ASSETS, {
+      fetchPriority: "high",
+      usePreloadLink: true,
+    });
+
+    return scheduleImagePreload(SECONDARY_IMAGE_ASSETS);
+  }, []);
+
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [stage]);
@@ -1291,9 +1685,10 @@ export default function BeroccaFASQuiz() {
       form,
       totalScore,
       sessionId,
+      serverUserId,
       initialForm: INITIAL_FORM,
     });
-  }, [answers, form, sessionId, stage, submitState, totalScore]);
+  }, [answers, form, serverUserId, sessionId, stage, submitState, totalScore]);
 
   useEffect(() => {
     syncCurrentSessionSubmissionState();
@@ -1338,14 +1733,105 @@ export default function BeroccaFASQuiz() {
     };
   }, []);
 
-  function handleAnswerChange(questionIndex, optionIndex) {
+  useEffect(() => {
+    if (stage !== "collect" || submitState !== "success") {
+      return undefined;
+    }
+
+    const redirectTimer = window.setTimeout(() => {
+      redirectToQuizAfterSuccessfulSubmit();
+    }, 1000);
+
+    return () => {
+      window.clearTimeout(redirectTimer);
+    };
+  }, [stage, submitState]);
+
+  const handleAnswerChange = useCallback((questionIndex, optionIndex) => {
     setAnswers((currentAnswers) => {
+      if (currentAnswers[questionIndex] === optionIndex) {
+        return currentAnswers;
+      }
+
       const nextAnswers = [...currentAnswers];
       nextAnswers[questionIndex] = optionIndex;
       return nextAnswers;
     });
 
     setFormMessage("");
+  }, []);
+
+  async function queueQuizResultSubmission({ answersSnapshot, result, score }) {
+    const quizPhaseSessionId = getPhaseSessionId(QUIZ_RESULT_SUBMISSION_PHASE);
+
+    if (hasAcknowledgedSession(quizPhaseSessionId)) {
+      return;
+    }
+
+    const existingQueuedSubmission = getQueuedSubmissionBySession(quizPhaseSessionId);
+    const submissionId =
+      existingQueuedSubmission?.id ??
+      getSubmissionPhaseId(sessionId, QUIZ_RESULT_SUBMISSION_PHASE);
+    const payload = buildQuizSubmissionPayload({
+      answers: answersSnapshot,
+      form: INITIAL_FORM,
+      result,
+      totalScore: score,
+      sessionId,
+      submissionId,
+      serverUserId: null,
+      phase: QUIZ_RESULT_SUBMISSION_PHASE,
+    });
+
+    try {
+      const response = await fetch(APPS_SCRIPT_URL, {
+        method: "POST",
+        body: JSON.stringify(payload),
+      });
+
+      const data = await response.json();
+
+      if (data.success && data.userId) {
+        setServerUserId(data.userId);
+
+        await markSessionAcknowledged({
+          sessionId: quizPhaseSessionId,
+          submissionId,
+        });
+      } else {
+        await upsertQueuedSubmission({
+          id: submissionId,
+          sessionId: quizPhaseSessionId,
+          payload,
+          attempts: 1,
+          queuedAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          nextAttemptAt: Date.now() + getRetryDelayMs(1),
+          lastError: data.error || "No userId in response",
+          lastStatusCode: 0,
+          isTerminalFailure: false,
+        });
+      }
+    } catch (error) {
+      console.error("Phase 1 submit error:", error);
+
+      try {
+        await upsertQueuedSubmission({
+          id: submissionId,
+          sessionId: quizPhaseSessionId,
+          payload,
+          attempts: 1,
+          queuedAt: existingQueuedSubmission?.queuedAt ?? new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          nextAttemptAt: Date.now() + getRetryDelayMs(1),
+          lastError: error instanceof Error ? error.message : String(error),
+          lastStatusCode: 0,
+          isTerminalFailure: false,
+        });
+      } catch (queueError) {
+        console.error("Failed to queue Phase 1:", queueError);
+      }
+    }
   }
 
   function handleShowResult() {
@@ -1353,7 +1839,7 @@ export default function BeroccaFASQuiz() {
 
     if (firstMissingIndex >= 0) {
       const firstMissingQuestion = QUESTIONS[firstMissingIndex];
-      setFormMessage("Bạn cần hoàn thành đủ 10 câu trước khi xem kết quả.");
+      setFormMessage("\u0110\u1ec3 nh\u1eadn \u0111\u01b0\u1ee3c k\u1ebft qu\u1ea3 \u0111\u00e1nh gi\u00e1 ch\u00ednh x\u00e1c nh\u1ea5t, b\u1ea1n vui l\u00f2ng ho\u00e0n t\u1ea5t c\u00e1c c\u00e2u h\u1ecfi tr\u01b0\u1edbc khi nh\u1ea5n x\u00e1c nh\u1eadn nh\u00e9.");
       document.getElementById(firstMissingQuestion.id)?.scrollIntoView({
         behavior: "smooth",
         block: "center",
@@ -1362,7 +1848,13 @@ export default function BeroccaFASQuiz() {
     }
 
     const score = calculateTotalScore(answers);
+    const result = getResultConfig(score);
 
+    void queueQuizResultSubmission({
+      answersSnapshot: answers,
+      result,
+      score,
+    });
     setTotalScore(score);
     setFormMessage("");
     setStage("result");
@@ -1374,8 +1866,10 @@ export default function BeroccaFASQuiz() {
       [field]: value,
     }));
 
-    if (getQueuedSubmissionBySession(sessionId)) {
-      void removeQueuedSubmissionBySession(sessionId);
+    const collectPhaseSessionId = getPhaseSessionId(COLLECT_INFO_SUBMISSION_PHASE);
+
+    if (getQueuedSubmissionBySession(collectPhaseSessionId)) {
+      void removeQueuedSubmissionBySession(collectPhaseSessionId);
     }
 
     if (submitState === "queued" || formMessage === TERMINAL_SUBMISSION_MESSAGE) {
@@ -1392,19 +1886,31 @@ export default function BeroccaFASQuiz() {
 
     if (missingField) {
       setSubmitState("error");
-      setFormMessage("Bạn vui lòng chọn đủ các mục bắt buộc trước khi xác nhận.");
+      setFormMessage(
+        "B\u1ea1n vui l\u00f2ng ho\u00e0n th\u00e0nh t\u1ea5t c\u1ea3 c\u00e1c th\u00f4ng tin b\u1eaft bu\u1ed9c tr\u01b0\u1edbc khi nh\u1ea5n x\u00e1c nh\u1eadn nh\u00e9.",
+      );
       return;
     }
 
-    if (hasAcknowledgedSession(sessionId)) {
+    if (!serverUserId) {
+      setSubmitState("error");
+      setFormMessage("Kết quả quiz chưa được lưu. Bạn vui lòng quay lại và thử xem kết quả một lần nữa.");
+      return;
+    }
+
+    const collectPhaseSessionId = getPhaseSessionId(COLLECT_INFO_SUBMISSION_PHASE);
+
+    if (hasAcknowledgedSession(collectPhaseSessionId)) {
       setSubmitState("success");
       setFormMessage(SUCCESS_SUBMISSION_MESSAGE);
       return;
     }
 
     const result = getResultConfig(totalScore);
-    const existingQueuedSubmission = getQueuedSubmissionBySession(sessionId);
-    const submissionId = existingQueuedSubmission?.id ?? createSubmissionId();
+    const existingQueuedSubmission = getQueuedSubmissionBySession(collectPhaseSessionId);
+    const submissionId =
+      existingQueuedSubmission?.id ??
+      getSubmissionPhaseId(sessionId, COLLECT_INFO_SUBMISSION_PHASE);
     const payload = buildQuizSubmissionPayload({
       answers,
       form,
@@ -1412,6 +1918,8 @@ export default function BeroccaFASQuiz() {
       totalScore,
       sessionId,
       submissionId,
+      serverUserId,
+      phase: COLLECT_INFO_SUBMISSION_PHASE,
     });
 
     try {
@@ -1420,7 +1928,7 @@ export default function BeroccaFASQuiz() {
 
       await upsertQueuedSubmission({
         id: submissionId,
-        sessionId,
+        sessionId: collectPhaseSessionId,
         payload,
         attempts: 0,
         queuedAt: existingQueuedSubmission?.queuedAt ?? new Date().toISOString(),
@@ -1433,7 +1941,7 @@ export default function BeroccaFASQuiz() {
 
       await flushSubmissionQueueRef.current({ priorityId: submissionId });
 
-      const latestQueuedSubmission = getQueuedSubmissionBySession(sessionId);
+      const latestQueuedSubmission = getQueuedSubmissionBySession(collectPhaseSessionId);
 
       if (latestQueuedSubmission?.id === submissionId) {
         if (latestQueuedSubmission.isTerminalFailure) {
@@ -1447,7 +1955,7 @@ export default function BeroccaFASQuiz() {
         return;
       }
 
-      if (hasAcknowledgedSession(sessionId)) {
+      if (hasAcknowledgedSession(collectPhaseSessionId)) {
         setSubmitState("success");
         setFormMessage(SUCCESS_SUBMISSION_MESSAGE);
         return;
@@ -1463,8 +1971,17 @@ export default function BeroccaFASQuiz() {
   }
 
   function handleRestart() {
-    void removeQueuedSubmissionBySession(sessionId);
-    void clearAcknowledgedSession(sessionId);
+    const quizPhaseSessionId = getPhaseSessionId(QUIZ_RESULT_SUBMISSION_PHASE);
+    const collectPhaseSessionId = getPhaseSessionId(COLLECT_INFO_SUBMISSION_PHASE);
+
+    void Promise.all([
+      removeQueuedSubmissionBySession(sessionId),
+      removeQueuedSubmissionBySession(quizPhaseSessionId),
+      removeQueuedSubmissionBySession(collectPhaseSessionId),
+      clearAcknowledgedSession(sessionId),
+      clearAcknowledgedSession(quizPhaseSessionId),
+      clearAcknowledgedSession(collectPhaseSessionId),
+    ]);
     clearPersistedQuizState();
     setAnswers(createInitialAnswers());
     setForm({ ...INITIAL_FORM });
@@ -1472,16 +1989,19 @@ export default function BeroccaFASQuiz() {
     setFormMessage("");
     setTotalScore(0);
     setSessionId(createSessionId());
+    setServerUserId(null);
     setStage("quiz");
   }
 
   return (
     <main
-      className={`page-shell${stage === "quiz" ? " page-shell--quiz" : ""}${stage === "collect" ? " page-shell--collect" : ""}`}
+      className={`page-shell${stage === "quiz" ? " page-shell--quiz" : ""}${stage === "result" ? " page-shell--result" : ""}${stage === "collect" ? " page-shell--collect" : ""}`}
     >
       <div
-        className={`page-frame${stage === "quiz" ? " page-frame--quiz" : ""}${stage === "collect" ? " page-frame--collect" : ""}`}
+        className={`page-frame${stage === "quiz" ? " page-frame--quiz" : ""}${stage === "result" ? " page-frame--result" : ""}${stage === "collect" ? " page-frame--collect" : ""}`}
       >
+        <h1 className="sr-only">{SEO_H1}</h1>
+
         {stage === "quiz" ? (
           <QuizScreen
             answers={answers}
@@ -1495,7 +2015,6 @@ export default function BeroccaFASQuiz() {
           <ResultScreen
             totalScore={totalScore}
             onContinue={() => setStage("collect")}
-            onRestart={handleRestart}
           />
         ) : null}
 
@@ -1505,7 +2024,6 @@ export default function BeroccaFASQuiz() {
             onChange={handleFormChange}
             onSubmit={handleSubmit}
             onBack={() => setStage("result")}
-            onRestart={handleRestart}
             submitState={submitState}
             formMessage={formMessage}
           />

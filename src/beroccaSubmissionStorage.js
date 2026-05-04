@@ -352,6 +352,7 @@ export function loadPersistedQuizState({
     form: { ...initialForm },
     totalScore: 0,
     sessionId: createSessionId(),
+    serverUserId: null,
   };
 
   const storedDraft = readJsonStorage(QUIZ_DRAFT_STORAGE_KEY, null);
@@ -378,6 +379,10 @@ export function loadPersistedQuizState({
       typeof storedDraft.sessionId === "string" && storedDraft.sessionId
         ? storedDraft.sessionId
         : createSessionId(),
+    serverUserId:
+      typeof storedDraft.serverUserId === "string" && storedDraft.serverUserId
+        ? storedDraft.serverUserId
+        : null,
   };
 }
 
@@ -387,6 +392,7 @@ export function persistQuizState({
   form,
   totalScore,
   sessionId,
+  serverUserId,
   initialForm,
 }) {
   if (
@@ -409,6 +415,7 @@ export function persistQuizState({
     form,
     totalScore,
     sessionId,
+    serverUserId,
     updatedAt: new Date().toISOString(),
   });
 }
