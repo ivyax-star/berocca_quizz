@@ -1691,6 +1691,12 @@
   background: #087537;
 }
 
+.result-important-card--with-note .result-important-card__body {
+  grid-template-rows: minmax(0, 1fr) auto;
+  row-gap: 8px;
+  padding-bottom: 12px;
+}
+
 .result-important-card__copy {
   display: grid;
   gap: 14px;
@@ -1705,8 +1711,26 @@
 }
 
 .result-important-card__note {
-  font-size: clamp(0.98rem, 0.92vw, 1.12rem);
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: 43px minmax(0, 1fr);
+  gap: 9px;
+  align-items: center;
+  min-width: 0;
+  margin-top: -2px;
+}
+
+.result-important-card__note-icon {
+  width: 43px;
+  height: auto;
+}
+
+.result-important-card__body .result-important-card__note p {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: clamp(0.56rem, 0.58vw, 0.66rem);
   font-style: italic;
+  font-weight: 400;
+  line-height: 1.16;
 }
 
 .result-basic-list li::before,
@@ -3122,6 +3146,36 @@
     font-size: 0.7rem;
   }
 
+  .result-important-card--with-note .result-important-card__body {
+    grid-template-columns: minmax(0, 1fr) 112px;
+    grid-template-rows: auto auto;
+    gap: 7px 8px;
+    min-height: 156px;
+    padding: 10px 12px 10px 18px;
+    background: #087537;
+  }
+
+  .result-important-card--with-note .result-important-card__body p {
+    color: #ffffff;
+  }
+
+  .result-important-card--with-note .result-important-card__note {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 7px;
+    margin-top: 0;
+  }
+
+  .result-important-card--with-note .result-important-card__note-icon {
+    width: 34px;
+  }
+
+  .result-important-card--with-note .result-important-card__note p {
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.52rem;
+    font-weight: 400;
+    line-height: 1.14;
+  }
+
   .result-vitamin-cluster {
     width: 116px;
     margin: 0;
@@ -3581,6 +3635,36 @@
 
   .result-important-card__note {
     font-size: 0.7rem;
+  }
+
+  .result-important-card--with-note .result-important-card__body {
+    grid-template-columns: minmax(0, 1fr) 112px;
+    grid-template-rows: auto auto;
+    gap: 7px 8px;
+    min-height: 156px;
+    padding: 10px 12px 10px 18px;
+    background: #087537;
+  }
+
+  .result-important-card--with-note .result-important-card__body p {
+    color: #ffffff;
+  }
+
+  .result-important-card--with-note .result-important-card__note {
+    grid-template-columns: 34px minmax(0, 1fr);
+    gap: 7px;
+    margin-top: 0;
+  }
+
+  .result-important-card--with-note .result-important-card__note-icon {
+    width: 34px;
+  }
+
+  .result-important-card--with-note .result-important-card__note p {
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.52rem;
+    font-weight: 400;
+    line-height: 1.14;
   }
 
   .result-vitamin-cluster {

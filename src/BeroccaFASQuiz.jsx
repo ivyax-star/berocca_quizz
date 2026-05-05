@@ -27,6 +27,7 @@ import importantTitleImage from "./Element/Headline/text 2.png";
 import recoveryTitleImage from "./Element/Headline/text 3.png";
 import vitaminClusterImage from "./Element/cac chat copy.png";
 import alertIconImage from "./Element/icon.png";
+import supportNoteIconImage from "./Element/icon 2.png";
 import bulletImage from "./Element/bullet.png";
 import happeningEnergyImage from "./Element/Happening/a2.png";
 import happeningFocusImage from "./Element/Happening/b2.png";
@@ -100,6 +101,7 @@ const IMPORTANT_TITLE_IMAGE = createImageAsset(importantTitleImage, 334, 100);
 const RECOVERY_TITLE_IMAGE = createImageAsset(recoveryTitleImage, 892, 54);
 const VITAMIN_CLUSTER_IMAGE = createImageAsset(vitaminClusterImage, 169, 186);
 const ALERT_ICON_IMAGE = createImageAsset(alertIconImage, 120, 120);
+const SUPPORT_NOTE_ICON_IMAGE = createImageAsset(supportNoteIconImage, 43, 36);
 const BULLET_IMAGE = createImageAsset(bulletImage, 23, 11);
 const HAPPENING_ENERGY_IMAGE = createImageAsset(happeningEnergyImage, 248, 101);
 const HAPPENING_FOCUS_IMAGE = createImageAsset(happeningFocusImage, 249, 101);
@@ -204,6 +206,7 @@ const SECONDARY_IMAGE_ASSETS = [
   RECOVERY_TITLE_IMAGE,
   VITAMIN_CLUSTER_IMAGE,
   ALERT_ICON_IMAGE,
+  SUPPORT_NOTE_ICON_IMAGE,
   BULLET_IMAGE,
   HAPPENING_ENERGY_IMAGE,
   HAPPENING_FOCUS_IMAGE,
@@ -368,12 +371,12 @@ const RESULT_CONFIGS = [
     ],
     warning: "Hãy chủ động phục hồi thể chất và tinh thần từ sớm!",
     habits: [
-      "Ăn uống cân bằng và đa dạng.",
-      "Vận động thường xuyên.",
-      "Ngủ đủ và sâu hơn.",
+      "Ăn uống cân bằng và đa dạng. [1]",
+      "Vận động thường xuyên. [2]",
+      "Ngủ đủ và sâu hơn. [3]",
     ],
     supplement:
-      "Bổ sung vitamin và khoáng chất trong trường hợp thiếu hụt (như chế độ ăn không đa dạng) và tăng nhu cầu (như làm việc cường độ cao) để cải thiện sức khỏe tinh thần như giảm căng thẳng và bớt mệt mỏi.",
+      "Bổ sung vitamin và khoáng chất trong trường hợp thiếu hụt (như chế độ ăn không đa dạng) và tăng nhu cầu (như làm việc cường độ cao) để cải thiện sức khỏe tinh thần như giảm căng thẳng và bớt mệt mỏi. [1]",
     recoveryTitle: "Khi cơ thể bắt đầu phục hồi đúng cách",
     recoveryTitleMobile: "Khi cơ thể bắt đầu|phục hồi đúng cách",
     recoveryCopy:
@@ -408,12 +411,12 @@ const RESULT_CONFIGS = [
     warning:
       "Đừng để tình trạng này kéo dài. Hãy chủ động phục hồi thể chất và tinh thần càng sớm càng tốt.",
     habits: [
-      "Ăn uống cân bằng và đa dạng.",
-      "Vận động thường xuyên.",
-      "Ngủ đủ và sâu hơn.",
+      "Ăn uống cân bằng và đa dạng. [1]",
+      "Vận động thường xuyên. [2]",
+      "Ngủ đủ và sâu hơn. [3]",
     ],
     supplement:
-      "Bổ sung vitamin và khoáng chất trong trường hợp thiếu hụt (như chế độ ăn không đa dạng) và tăng nhu cầu (như làm việc cường độ cao) để cải thiện sức khỏe tinh thần như giảm căng thẳng và bớt mệt mỏi.",
+      "Bổ sung vitamin và khoáng chất trong trường hợp thiếu hụt (như chế độ ăn không đa dạng) và tăng nhu cầu (như làm việc cường độ cao) để cải thiện sức khỏe tinh thần như giảm căng thẳng và bớt mệt mỏi. [1]",
     recoveryTitle: "Khi cơ thể bắt đầu phục hồi đúng cách",
     recoveryTitleMobile: "Khi cơ thể bắt đầu|phục hồi đúng cách",
     recoveryCopy:
@@ -448,12 +451,12 @@ const RESULT_CONFIGS = [
     warning:
       "Đừng tiếp tục “gồng” thêm nữa! Bạn cần phục hồi một cách nghiêm túc và đúng cách ngay lúc này.",
     habits: [
-      "Ăn uống cân bằng và đa dạng.",
-      "Vận động thường xuyên.",
-      "Ngủ đủ và sâu hơn.",
+      "Ăn uống cân bằng và đa dạng. [1]",
+      "Vận động thường xuyên. [2]",
+      "Ngủ đủ và sâu hơn. [3]",
     ],
     supplement:
-      "Bổ sung vitamin và khoáng chất trong trường hợp thiếu hụt (như chế độ ăn không đa dạng) và tăng nhu cầu (như làm việc cường độ cao) để cải thiện sức khỏe tinh thần như giảm căng thẳng và bớt mệt mỏi.",
+      "Bổ sung vitamin và khoáng chất trong trường hợp thiếu hụt (như chế độ ăn không đa dạng) và tăng nhu cầu (như làm việc cường độ cao) để cải thiện sức khỏe tinh thần như giảm căng thẳng và bớt mệt mỏi. [1]",
     supportNote:
       "Lưu ý: Nếu tình trạng mệt mỏi kéo dài hoặc ảnh hưởng nhiều đến sinh hoạt, bạn nên tìm đến chuyên gia y tế để được tư vấn phù hợp.",
     recoveryTitle: "Khi cơ thể bắt đầu phục hồi đúng cách",
@@ -1181,7 +1184,11 @@ function ResultScreen({ totalScore, onContinue }) {
           </ul>
         </article>
 
-        <article className="result-important-card">
+        <article
+          className={`result-important-card${
+            result.supportNote ? " result-important-card--with-note" : ""
+          }`}
+        >
           <div className="result-important-card__header">
             <AssetImage image={IMPORTANT_TITLE_IMAGE} decorative />
             <span>Quan trọng</span>
@@ -1190,9 +1197,6 @@ function ResultScreen({ totalScore, onContinue }) {
           <div className="result-important-card__body">
             <div className="result-important-card__copy">
               <p>{result.supplement}</p>
-              {result.supportNote ? (
-                <p className="result-important-card__note">{result.supportNote}</p>
-              ) : null}
             </div>
 
             <div className="result-vitamin-cluster" aria-hidden="true">
@@ -1214,6 +1218,17 @@ function ResultScreen({ totalScore, onContinue }) {
                 MAGIE
               </span>
             </div>
+
+            {result.supportNote ? (
+              <div className="result-important-card__note">
+                <AssetImage
+                  className="result-important-card__note-icon"
+                  image={SUPPORT_NOTE_ICON_IMAGE}
+                  decorative
+                />
+                <p>{result.supportNote}</p>
+              </div>
+            ) : null}
           </div>
         </article>
       </section>
