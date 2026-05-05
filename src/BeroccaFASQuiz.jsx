@@ -128,6 +128,20 @@ const SEO_H1 =
 const QUIZ_BANNER_ALT = SEO_H1;
 const RESULT_BANNER_ALT = "Kết quả tình trạng căng thẳng mệt mỏi";
 const COLLECT_BANNER_ALT = "Thông tin tư vấn tình trạng căng thẳng mệt mỏi";
+const SITE_FOOTER_LINKS = [
+  {
+    label: "Liên hệ",
+    href: "https://www.berocca.com.vn/contact-us",
+  },
+  {
+    label: "Chính Sách Bảo Mật Thông Tin",
+    href: "https://www.berocca.com.vn/chinh-sach-bao-mat-thong-tin",
+  },
+  {
+    label: "Điều khoản sử dụng",
+    href: "https://www.berocca.com.vn/conditions-of-use",
+  },
+];
 
 const APPS_SCRIPT_URL =
   import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL ??
@@ -752,6 +766,20 @@ function StageBanner({ image, alt }) {
         fetchPriority="high"
       />
     </section>
+  );
+}
+
+function SiteFooter() {
+  return (
+    <footer className="site-footer" aria-label="Liên kết hỗ trợ">
+      <nav className="site-footer__nav" aria-label="Thông tin website Berocca">
+        {SITE_FOOTER_LINKS.map((link) => (
+          <a key={link.href} href={link.href}>
+            {link.label}
+          </a>
+        ))}
+      </nav>
+    </footer>
   );
 }
 
@@ -2043,6 +2071,8 @@ export default function BeroccaFASQuiz() {
           />
         ) : null}
       </div>
+
+      <SiteFooter />
     </main>
   );
 }
