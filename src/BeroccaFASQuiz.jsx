@@ -145,7 +145,7 @@ const SITE_FOOTER_LINKS = [
 
 const APPS_SCRIPT_URL =
   import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL ??
-  "https://script.google.com/macros/s/AKfycbxVYxq_iXLDQe2IcF8fFtX8VswYfFEXm1GvNsm03MAb-jnQVmaYrldindRBqQZPf1zBjA/exec";
+  "https://script.google.com/macros/s/AKfycbwR8H6Srd-eePVeQtncO6aICkBynA_cBquP3U6zRdV0wBLsZt8tDc0b7IKNT3OplKYAIQ/exec";
 
 const SECRET_TOKEN =
   import.meta.env.VITE_GOOGLE_APPS_SCRIPT_TOKEN ?? "berocca2024xyz";
@@ -703,8 +703,19 @@ function getSubmissionPhaseSessionId(sessionId, phase) {
   return `${sessionId}:${phase}`;
 }
 
+function getSubmissionRecordId(sessionId) {
+  return `submission-${sessionId}`;
+}
+
 function getSubmissionPhaseId(sessionId, phase) {
-  return `submission-${phase}-${sessionId}`;
+  return `${getSubmissionRecordId(sessionId)}:${phase}`;
+}
+
+function normalizeServerRowIndex(rowIndex) {
+  const numericRowIndex = Number(rowIndex);
+  return Number.isInteger(numericRowIndex) && numericRowIndex > 1
+    ? numericRowIndex
+    : null;
 }
 
 function buildQuizSubmissionPayload({
@@ -712,7 +723,10 @@ function buildQuizSubmissionPayload({
   form,
   result,
   totalScore,
+  sessionId,
+  submissionId,
   serverUserId,
+  serverRowIndex,
   phase = COLLECT_INFO_SUBMISSION_PHASE,
 }) {
   const answerTexts = answers.map((answerIndex, questionIndex) => {
@@ -722,13 +736,19 @@ function buildQuizSubmissionPayload({
 
   const resultLevel = getResultLevelLabel(result.key);
   const isCollectSubmission = phase === COLLECT_INFO_SUBMISSION_PHASE;
+  const basePayload = {
+    token: SECRET_TOKEN,
+    timestamp: new Date().toISOString(),
+    sessionId,
+    submissionId,
+  };
 
   if (isCollectSubmission) {
     return {
-      token: SECRET_TOKEN,
+      ...basePayload,
       action: "update",
       userId: serverUserId,
-      timestamp: new Date().toISOString(),
+      rowIndex: Number.isInteger(serverRowIndex) ? serverRowIndex : undefined,
       ageGroup: normalizeAgeGroup(form.ageGroup),
       gender: form.gender,
       jobGroup: normalizeJobType(form.jobGroup),
@@ -738,9 +758,8 @@ function buildQuizSubmissionPayload({
   }
 
   return {
-    token: SECRET_TOKEN,
+    ...basePayload,
     action: "create",
-    timestamp: new Date().toISOString(),
     total_score: totalScore,
     q1: answerTexts[0],
     q2: answerTexts[1],
@@ -1462,6 +1481,9 @@ export default function BeroccaFASQuiz() {
   const [totalScore, setTotalScore] = useState(initialState.totalScore);
   const [sessionId, setSessionId] = useState(initialState.sessionId);
   const [serverUserId, setServerUserId] = useState(initialState.serverUserId ?? null);
+  const [serverRowIndex, setServerRowIndex] = useState(
+    normalizeServerRowIndex(initialState.serverRowIndex),
+  );
   const syncTimerRef = useRef(null);
   const isSyncingQueueRef = useRef(false);
   const flushSubmissionQueueRef = useRef(async () => {});
@@ -1605,10 +1627,22 @@ export default function BeroccaFASQuiz() {
         }
 
         try {
-          await submitQueuedPayload({
+          const responseData = await submitQueuedPayload({
             url: APPS_SCRIPT_URL,
             payload: nextSubmission.payload,
           });
+
+          if (nextSubmission.payload?.action === "create") {
+            if (responseData?.userId) {
+              setServerUserId(responseData.userId);
+            }
+
+            const responseRowIndex = normalizeServerRowIndex(responseData?.rowIndex);
+
+            if (responseRowIndex) {
+              setServerRowIndex(responseRowIndex);
+            }
+          }
 
           await markSessionAcknowledged({
             sessionId: nextSubmission.sessionId,
@@ -1728,9 +1762,19 @@ export default function BeroccaFASQuiz() {
       totalScore,
       sessionId,
       serverUserId,
+      serverRowIndex,
       initialForm: INITIAL_FORM,
     });
-  }, [answers, form, serverUserId, sessionId, stage, submitState, totalScore]);
+  }, [
+    answers,
+    form,
+    serverRowIndex,
+    serverUserId,
+    sessionId,
+    stage,
+    submitState,
+    totalScore,
+  ]);
 
   useEffect(() => {
     syncCurrentSessionSubmissionState();
@@ -1811,7 +1855,7 @@ export default function BeroccaFASQuiz() {
     }
 
     const existingQueuedSubmission = getQueuedSubmissionBySession(quizPhaseSessionId);
-    const submissionId =
+    const submissionQueueId =
       existingQueuedSubmission?.id ??
       getSubmissionPhaseId(sessionId, QUIZ_RESULT_SUBMISSION_PHASE);
     const payload = buildQuizSubmissionPayload({
@@ -1820,8 +1864,9 @@ export default function BeroccaFASQuiz() {
       result,
       totalScore: score,
       sessionId,
-      submissionId,
+      submissionId: getSubmissionRecordId(sessionId),
       serverUserId: null,
+      serverRowIndex: null,
       phase: QUIZ_RESULT_SUBMISSION_PHASE,
     });
 
@@ -1836,13 +1881,19 @@ export default function BeroccaFASQuiz() {
       if (data.success && data.userId) {
         setServerUserId(data.userId);
 
+        const responseRowIndex = normalizeServerRowIndex(data.rowIndex);
+
+        if (responseRowIndex) {
+          setServerRowIndex(responseRowIndex);
+        }
+
         await markSessionAcknowledged({
           sessionId: quizPhaseSessionId,
-          submissionId,
+          submissionId: submissionQueueId,
         });
       } else {
         await upsertQueuedSubmission({
-          id: submissionId,
+          id: submissionQueueId,
           sessionId: quizPhaseSessionId,
           payload,
           attempts: 1,
@@ -1859,7 +1910,7 @@ export default function BeroccaFASQuiz() {
 
       try {
         await upsertQueuedSubmission({
-          id: submissionId,
+          id: submissionQueueId,
           sessionId: quizPhaseSessionId,
           payload,
           attempts: 1,
@@ -1950,7 +2001,7 @@ export default function BeroccaFASQuiz() {
 
     const result = getResultConfig(totalScore);
     const existingQueuedSubmission = getQueuedSubmissionBySession(collectPhaseSessionId);
-    const submissionId =
+    const submissionQueueId =
       existingQueuedSubmission?.id ??
       getSubmissionPhaseId(sessionId, COLLECT_INFO_SUBMISSION_PHASE);
     const payload = buildQuizSubmissionPayload({
@@ -1959,8 +2010,9 @@ export default function BeroccaFASQuiz() {
       result,
       totalScore,
       sessionId,
-      submissionId,
+      submissionId: getSubmissionRecordId(sessionId),
       serverUserId,
+      serverRowIndex,
       phase: COLLECT_INFO_SUBMISSION_PHASE,
     });
 
@@ -1969,7 +2021,7 @@ export default function BeroccaFASQuiz() {
       setFormMessage("Đang gửi dữ liệu...");
 
       await upsertQueuedSubmission({
-        id: submissionId,
+        id: submissionQueueId,
         sessionId: collectPhaseSessionId,
         payload,
         attempts: 0,
@@ -1981,11 +2033,11 @@ export default function BeroccaFASQuiz() {
         isTerminalFailure: false,
       });
 
-      await flushSubmissionQueueRef.current({ priorityId: submissionId });
+      await flushSubmissionQueueRef.current({ priorityId: submissionQueueId });
 
       const latestQueuedSubmission = getQueuedSubmissionBySession(collectPhaseSessionId);
 
-      if (latestQueuedSubmission?.id === submissionId) {
+      if (latestQueuedSubmission?.id === submissionQueueId) {
         if (latestQueuedSubmission.isTerminalFailure) {
           setSubmitState("error");
           setFormMessage(TERMINAL_SUBMISSION_MESSAGE);
@@ -2032,6 +2084,7 @@ export default function BeroccaFASQuiz() {
     setTotalScore(0);
     setSessionId(createSessionId());
     setServerUserId(null);
+    setServerRowIndex(null);
     setStage("quiz");
   }
 

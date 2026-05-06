@@ -353,6 +353,7 @@ export function loadPersistedQuizState({
     totalScore: 0,
     sessionId: createSessionId(),
     serverUserId: null,
+    serverRowIndex: null,
   };
 
   const storedDraft = readJsonStorage(QUIZ_DRAFT_STORAGE_KEY, null);
@@ -383,6 +384,11 @@ export function loadPersistedQuizState({
       typeof storedDraft.serverUserId === "string" && storedDraft.serverUserId
         ? storedDraft.serverUserId
         : null,
+    serverRowIndex:
+      Number.isInteger(Number(storedDraft.serverRowIndex)) &&
+      Number(storedDraft.serverRowIndex) > 1
+        ? Number(storedDraft.serverRowIndex)
+        : null,
   };
 }
 
@@ -393,6 +399,7 @@ export function persistQuizState({
   totalScore,
   sessionId,
   serverUserId,
+  serverRowIndex,
   initialForm,
 }) {
   if (
@@ -416,6 +423,7 @@ export function persistQuizState({
     totalScore,
     sessionId,
     serverUserId,
+    serverRowIndex,
     updatedAt: new Date().toISOString(),
   });
 }
@@ -595,13 +603,18 @@ export async function submitQueuedPayload({ url, payload, timeoutMs = 12000 }) {
     }
 
     if (!response.ok || responseData.success !== true) {
+      const responseRetryable =
+        responseData.retryable === undefined
+          ? isRetryableStatusCode(response.status)
+          : responseData.retryable === true;
+
       throw createSubmissionError(
         responseData.error ||
           responseData.message ||
           responseData.raw ||
           `Submit failed with status ${response.status}`,
         {
-          retryable: isRetryableStatusCode(response.status),
+          retryable: responseRetryable,
           statusCode: response.status,
         },
       );
