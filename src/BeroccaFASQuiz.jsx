@@ -128,21 +128,6 @@ const SEO_H1 =
 const QUIZ_BANNER_ALT = SEO_H1;
 const RESULT_BANNER_ALT = "Kết quả tình trạng căng thẳng mệt mỏi";
 const COLLECT_BANNER_ALT = "Thông tin tư vấn tình trạng căng thẳng mệt mỏi";
-const SITE_FOOTER_LINKS = [
-  {
-    label: "Liên hệ",
-    href: "https://www.berocca.com.vn/contact-us",
-  },
-  {
-    label: "Chính Sách Bảo Mật Thông Tin",
-    href: "https://www.berocca.com.vn/chinh-sach-bao-mat-thong-tin",
-  },
-  {
-    label: "Điều khoản sử dụng",
-    href: "https://www.berocca.com.vn/conditions-of-use",
-  },
-];
-
 const APPS_SCRIPT_URL =
   import.meta.env.VITE_GOOGLE_APPS_SCRIPT_URL ??
   "https://script.google.com/macros/s/AKfycbwR8H6Srd-eePVeQtncO6aICkBynA_cBquP3U6zRdV0wBLsZt8tDc0b7IKNT3OplKYAIQ/exec";
@@ -158,6 +143,7 @@ const TERMINAL_SUBMISSION_MESSAGE =
 
 const QUIZ_RESULT_SUBMISSION_PHASE = "quiz_result";
 const COLLECT_INFO_SUBMISSION_PHASE = "collect_info";
+const STAGE_SCROLL_RETRY_DELAYS_MS = [0, 80, 240, 600];
 
 const ANSWER_OPTIONS = [
   {
@@ -775,6 +761,107 @@ function buildQuizSubmissionPayload({
   };
 }
 
+function getPageScrollTop() {
+  return window.scrollY ?? window.pageYOffset ?? 0;
+}
+
+function forceInstantScroll(callback) {
+  const root = document.documentElement;
+  const previousScrollBehavior = root.style.scrollBehavior;
+
+  root.style.scrollBehavior = "auto";
+  callback();
+  window.requestAnimationFrame(() => {
+    root.style.scrollBehavior = previousScrollBehavior;
+  });
+}
+
+function getStageHeight(stageElement) {
+  if (!stageElement) {
+    return document.documentElement.scrollHeight;
+  }
+
+  const rect = stageElement.getBoundingClientRect();
+  const rootHeight = document.getElementById("root")?.scrollHeight ?? 0;
+
+  return Math.ceil(Math.max(stageElement.scrollHeight, rect.height, rootHeight));
+}
+
+function notifyHostLayoutChange(stageElement, stage) {
+  const height = getStageHeight(stageElement);
+  const detail = {
+    type: "berocca-fas-layout",
+    stage,
+    height,
+  };
+
+  window.dispatchEvent(new CustomEvent("berocca-fas-layout", { detail }));
+
+  try {
+    window.parent?.postMessage(detail, "*");
+  } catch {
+    // Some hosts block parent communication; the in-page scroll still works.
+  }
+
+  try {
+    const frameElement = window.frameElement;
+
+    if (frameElement?.style) {
+      frameElement.style.minHeight = "0";
+      frameElement.style.height = `${height}px`;
+    }
+  } catch {
+    // Cross-origin embeds may not expose the iframe element.
+  }
+
+  try {
+    window.dispatchEvent(new Event("resize"));
+    window.parent?.dispatchEvent(new Event("resize"));
+  } catch {
+    // Parent resize dispatch is best-effort for host auto-resizers.
+  }
+}
+
+function normalizeAppContainerHeight() {
+  const rootElement = document.getElementById("root");
+
+  if (!rootElement) {
+    return;
+  }
+
+  rootElement.style.minHeight = "0";
+  rootElement.style.height = "auto";
+}
+
+function scrollStageToTop(stageElement) {
+  const scrollTarget = stageElement ?? document.getElementById("root");
+
+  forceInstantScroll(() => {
+    if (scrollTarget) {
+      const targetTop = scrollTarget.getBoundingClientRect().top + getPageScrollTop();
+      window.scrollTo({ top: Math.max(0, targetTop), behavior: "auto" });
+    } else {
+      window.scrollTo({ top: 0, behavior: "auto" });
+    }
+
+    try {
+      if (window.parent && window.parent !== window && window.frameElement) {
+        const parentTop =
+          window.frameElement.getBoundingClientRect().top +
+          (window.parent.scrollY ?? window.parent.pageYOffset ?? 0);
+
+        window.parent.scrollTo({ top: Math.max(0, parentTop), behavior: "auto" });
+      }
+    } catch {
+      try {
+        window.parent?.postMessage({ type: "berocca-fas-scroll-top" }, "*");
+      } catch {
+        // Cross-origin hosts need to opt in to this message.
+      }
+    }
+  });
+}
+
 function StageBanner({ image, alt }) {
   return (
     <section className="stage-banner">
@@ -785,20 +872,6 @@ function StageBanner({ image, alt }) {
         fetchPriority="high"
       />
     </section>
-  );
-}
-
-function SiteFooter() {
-  return (
-    <footer className="site-footer" aria-label="Liên kết hỗ trợ">
-      <nav className="site-footer__nav" aria-label="Thông tin website Berocca">
-        {SITE_FOOTER_LINKS.map((link) => (
-          <a key={link.href} href={link.href}>
-            {link.label}
-          </a>
-        ))}
-      </nav>
-    </footer>
   );
 }
 
@@ -1484,6 +1557,7 @@ export default function BeroccaFASQuiz() {
   const [serverRowIndex, setServerRowIndex] = useState(
     normalizeServerRowIndex(initialState.serverRowIndex),
   );
+  const pageShellRef = useRef(null);
   const syncTimerRef = useRef(null);
   const isSyncingQueueRef = useRef(false);
   const flushSubmissionQueueRef = useRef(async () => {});
@@ -1746,8 +1820,60 @@ export default function BeroccaFASQuiz() {
   }, []);
 
   useEffect(() => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
+    if (typeof window === "undefined") {
+      return undefined;
+    }
+
+    normalizeAppContainerHeight();
+
+    const timers = STAGE_SCROLL_RETRY_DELAYS_MS.map((delayMs) =>
+      window.setTimeout(() => {
+        normalizeAppContainerHeight();
+        scrollStageToTop(pageShellRef.current);
+        notifyHostLayoutChange(pageShellRef.current, stage);
+      }, delayMs),
+    );
+
+    return () => {
+      timers.forEach((timerId) => window.clearTimeout(timerId));
+    };
   }, [stage]);
+
+  useEffect(() => {
+    if (typeof window === "undefined" || typeof ResizeObserver === "undefined") {
+      return undefined;
+    }
+
+    const stageElement = pageShellRef.current;
+
+    if (!stageElement) {
+      return undefined;
+    }
+
+    let animationFrameId = 0;
+    const emitLayoutChange = () => {
+      window.cancelAnimationFrame(animationFrameId);
+      animationFrameId = window.requestAnimationFrame(() => {
+        normalizeAppContainerHeight();
+        notifyHostLayoutChange(stageElement, stage);
+      });
+    };
+    const resizeObserver = new ResizeObserver(emitLayoutChange);
+    const rootElement = document.getElementById("root");
+
+    resizeObserver.observe(stageElement);
+
+    if (rootElement) {
+      resizeObserver.observe(rootElement);
+    }
+
+    emitLayoutChange();
+
+    return () => {
+      window.cancelAnimationFrame(animationFrameId);
+      resizeObserver.disconnect();
+    };
+  }, [stage, formMessage, submitState]);
 
   useEffect(() => {
     if (submitState === "success") {
@@ -2090,6 +2216,8 @@ export default function BeroccaFASQuiz() {
 
   return (
     <main
+      ref={pageShellRef}
+      data-berocca-fas-root
       className={`page-shell${stage === "quiz" ? " page-shell--quiz" : ""}${stage === "result" ? " page-shell--result" : ""}${stage === "collect" ? " page-shell--collect" : ""}`}
     >
       <div
@@ -2125,7 +2253,6 @@ export default function BeroccaFASQuiz() {
         ) : null}
       </div>
 
-      <SiteFooter />
     </main>
   );
 }

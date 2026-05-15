@@ -27,7 +27,8 @@
 }
 
 .page-shell {
-  min-height: 100svh;
+  height: auto;
+  min-height: 0;
   padding: 28px 16px 72px;
   background:
     radial-gradient(circle at top left, rgba(206, 247, 88, 0.34), transparent 22%),
@@ -38,71 +39,15 @@
 
 .page-frame {
   width: min(100%, 1100px);
+  height: auto;
   margin: 0 auto;
   display: grid;
   gap: 22px;
 }
 
-.site-footer {
-  width: min(100%, 960px);
-  margin: 0 auto;
-  padding: 0 12px 18px;
-  background: #ffffff;
-}
-
-.site-footer__nav {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 10px clamp(22px, 3.7vw, 44px);
-  min-height: 42px;
-}
-
-.site-footer__nav a {
-  max-width: 100%;
-  color: #006b61;
-  font-size: clamp(0.76rem, 1.05vw, 0.95rem);
-  font-weight: 400;
-  line-height: 1.2;
-  text-align: center;
-  text-decoration: none;
-  overflow-wrap: break-word;
-  transition:
-    color var(--transition-base),
-    text-decoration-color var(--transition-base);
-}
-
-.site-footer__nav a:hover,
-.site-footer__nav a:focus-visible {
-  color: #008a78;
-  text-decoration: underline;
-  text-decoration-thickness: 1px;
-  text-underline-offset: 4px;
-}
-
-.page-shell--collect .site-footer {
-  width: min(100%, 760px);
-}
-
-@media (max-width: 640px) {
-  .site-footer {
-    padding: 12px 14px 18px;
-  }
-
-  .site-footer__nav {
-    gap: 9px 18px;
-    min-height: auto;
-  }
-
-  .site-footer__nav a {
-    font-size: 0.78rem;
-    line-height: 1.25;
-  }
-}
-
 .content-column {
   display: grid;
+  height: auto;
   gap: 22px;
 }
 
@@ -561,6 +506,7 @@
 }
 
 .page-shell--quiz {
+  min-height: 0;
   padding: 0;
   background-color: #37b000;
   background-image: var(--quiz-page-background-image);
@@ -1353,7 +1299,8 @@
 }
 
 .page-shell--result {
-  padding: 0 0 64px;
+  min-height: 0;
+  padding: 0;
   background: linear-gradient(90deg, #78d900 0%, #0b9800 100%);
 }
 
@@ -2016,13 +1963,14 @@
 }
 
 .page-shell--collect {
+  min-height: 0;
   padding: 0;
   background: linear-gradient(180deg, #61d000 0%, #44bf00 100%);
 }
 
 .page-frame--collect {
   width: min(100%, 760px);
-  padding: 0 12px 44px;
+  padding: 0 12px;
 }
 
 .content-column--collect {
@@ -2590,6 +2538,10 @@
     padding-inline: 10px;
   }
 
+  .page-shell--collect {
+    padding: 0;
+  }
+
   .page-shell--quiz {
     overflow-x: clip;
     padding: 0 0 24px;
@@ -2769,7 +2721,7 @@
   }
 
   .page-frame--collect {
-    padding: 0 8px 32px;
+    padding: 0 8px;
   }
 
   .content-column--collect {
@@ -3355,6 +3307,10 @@
 @media (max-width: 520px) {
   .page-shell {
     padding-top: 16px;
+  }
+
+  .page-shell--collect {
+    padding: 0;
   }
 
   .page-shell--result {
