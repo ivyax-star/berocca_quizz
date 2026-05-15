@@ -3003,28 +3003,28 @@
 
   .result-signal-row {
     width: 100%;
-    justify-items: stretch;
+    justify-items: start;
     gap: 10px;
     margin: 8px auto 12px;
   }
 
   .result-signal {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 82px minmax(0, 1fr);
+    position: relative;
+    display: flex;
     align-items: center;
-    width: 100%;
+    width: min(100%, 260px);
     min-width: 0;
     min-height: 76px;
-    justify-self: center;
+    justify-self: start;
     padding-left: 0;
   }
 
   .result-signal__icon {
-    position: static;
-    grid-column: 2 / 4;
-    justify-self: start;
+    position: absolute;
+    left: 0;
+    top: 50%;
     width: 148px;
-    transform: none;
+    transform: translateY(-50%);
     z-index: 1;
   }
 
@@ -3033,13 +3033,11 @@
   }
 
   .result-signal__text {
-    grid-column: 3;
-    align-self: center;
+    position: relative;
     z-index: 2;
     gap: 0;
-    padding-left: 1.35rem;
-    margin-left: -1.825rem;
-    margin-top: -4.5625rem;
+    padding-left: 72px;
+    margin: 0;
   }
 
   .result-signal__text strong,
@@ -3299,8 +3297,14 @@
   }
 
   .result-actions {
+    justify-items: center;
     margin-top: 0;
     padding-top: 24px;
+  }
+
+  .result-actions .image-button {
+    justify-self: center;
+    width: min(100%, 290px);
   }
 }
 
@@ -3369,28 +3373,28 @@
 
   .result-signal-row {
     width: 100%;
-    justify-items: stretch;
+    justify-items: start;
     gap: 10px;
     margin: 8px auto 12px;
   }
 
   .result-signal {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) 82px minmax(0, 1fr);
+    position: relative;
+    display: flex;
     align-items: center;
-    width: 100%;
+    width: min(100%, 260px);
     min-width: 0;
     min-height: 76px;
-    justify-self: center;
+    justify-self: start;
     padding-left: 0;
   }
 
   .result-signal__icon {
-    position: static;
-    grid-column: 2 / 4;
-    justify-self: start;
+    position: absolute;
+    left: 0;
+    top: 50%;
     width: 148px;
-    transform: none;
+    transform: translateY(-50%);
     z-index: 1;
   }
 
@@ -3399,13 +3403,11 @@
   }
 
   .result-signal__text {
-    grid-column: 3;
-    align-self: center;
+    position: relative;
     z-index: 2;
     gap: 0;
-    padding-left: 1.35rem; 
-    margin-left: -1.825rem; 
-    margin-top: -4.5625rem;
+    padding-left: 72px;
+    margin: 0;
   }
 
   .result-signal__text strong,
@@ -3794,8 +3796,14 @@
   }
 
   .result-actions {
+    justify-items: center;
     margin-top: 0;
     padding-top: 24px;
+  }
+
+  .result-actions .image-button {
+    justify-self: center;
+    width: min(100%, 290px);
   }
 
   .status-notice {
